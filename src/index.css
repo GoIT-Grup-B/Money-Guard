@@ -5,7 +5,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(../fonts/Poppins-Regular.ttf) format('truetype');
+  src: url(../src/assets/fonts/Poppins-Regular.ttf) format('truetype');
 }
 
 @font-face {
@@ -13,7 +13,7 @@
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url(../fonts/Poppins-SemiBold.ttf) format('truetype');
+  src: url(../src//assets/fonts/Poppins-SemiBold.ttf) format('truetype');
 }
 
 :root {
@@ -26,7 +26,7 @@
 
   color: var(--text-color);
   background-color: black;
-  background-image: url('../public/img/gradient-desktop.webp');
+  background-image: url('../src/assets/img/gradient-desktop.webp');
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
@@ -42,17 +42,17 @@
 
 @media only screen and (max-width: 767.98px) {
   :root {
-    background-image: url('../public/img/gradient-mobile.webp');
+    background-image: url('../src/assets/img/gradient-mobile.webp');
   }
 }
 @media only screen and (min-width: 768px) {
   :root {
-    background-image: url('../public/img/gradient-tablet.webp');
+    background-image: url('../src/assets/img/gradient-tablet.webp');
   }
 }
 @media only screen and (min-width: 1280px) {
   :root {
-    background-image: url('../public/img/gradient-desktop.webp');
+    background-image: url('../src/assets/img/gradient-desktop.webp');
   }
 }
 
