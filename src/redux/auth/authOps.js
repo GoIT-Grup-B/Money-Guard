@@ -5,13 +5,9 @@ const URL = 'https://wallet.b.goit.study/api';
 
 export const registerUser = createAsyncThunk(
   'auth/register',
-  async ({ username, email, password }, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      const res = await axios.post(`${URL}/auth/sign-up`, {
-        username,
-        email,
-        password,
-      });
+      const res = await axios.post(`${URL}/auth/sign-up`, data);
 
       return res.data;
     } catch (error) {
