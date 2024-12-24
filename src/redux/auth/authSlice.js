@@ -64,12 +64,12 @@ export const userSlice = createSlice({
       state.error = null;
     });
 
-    builder.addCase(signOutUser, (state, action) => {
+    builder.addCase(signOutUser.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
     });
 
-    builder.addCase(signOutUser, (state) => {
+    builder.addCase(signOutUser.fulfilled, (state) => {
       Object.assign(state, initialState);
     });
   },
