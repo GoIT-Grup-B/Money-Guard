@@ -5,7 +5,12 @@ module.exports = {
       "./src/**/*.{js,jsx,ts,tsx}", // Tailwind'in hangi dosyalarda kullanılacağını belirtir
     ],
     theme: {
-      extend: {}, // Tema özelleştirmeleri için
+      extend: {
+        fontFamily: {
+            poppins: ['Poppins', 'sans-serif'],
+          },
+      },
+      
     },
     plugins: [],
   };
