@@ -15,23 +15,22 @@ export const registerUser = createAsyncThunk(
 
       return res.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(error.message);
     }
   },
 );
 
 export const loginUser = createAsyncThunk(
   'auth/login',
-  async ({ email, password }, thunkAPI) => {
+  async (data, thunkAPI) => {
+    console.log(data);
     try {
-      const res = await axios.post(`${URL}/auth/sign-in`, {
-        email,
-        password,
-      });
+      console.log(data);
+      const res = await axios.post(`${URL}/auth/sign-in`, data);
 
       return res.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(error.message);
     }
   },
 );
@@ -43,7 +42,7 @@ export const signOutUser = createAsyncThunk(
       await axios.delete(`${URL}/auth/sign-out`);
       return {};
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(error.message);
     }
   },
 );
