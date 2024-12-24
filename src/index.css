@@ -1,5 +1,9 @@
 @import url(./utils/variables.css);
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @font-face {
   font-family: 'Poppins';
   font-style: normal;
