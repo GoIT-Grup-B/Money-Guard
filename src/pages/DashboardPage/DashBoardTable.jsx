@@ -1,5 +1,4 @@
-import './DashBoardTable.module.css'; 
-
+import penLogo from "../../assets/img/pen.svg"
 // eslint-disable-next-line react/prop-types
 const DashBoardTable = () => {
     //const [data, setData] = useState([]);
@@ -55,7 +54,9 @@ const DashBoardTable = () => {
                         <td className="px-6 py-4 font-poppins text-sm font-normal leading-6 text-left">{item.phone}</td>
                         <td className="px-6 py-4 font-poppins text-sm font-normal leading-6 text-left">
                             <div style={{display:"flex", flexDirection:"row", gap:"2"}}>
-                                <svg></svg>
+                                 <button>
+                                    <img src={penLogo} alt="pen" />
+                                </button>
                                 <button type="button" className='text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900'>Delete</button>
                             </div>
                             </td>
