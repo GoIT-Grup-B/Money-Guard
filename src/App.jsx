@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
 import DashboardPage from './pages/DashboardPage/DashboardPage';
 import AddTransactionForm from './components/AddTransactionForm/AddTransactionForm';
+import DashBoardTable from './pages/DashboardPage/DashBoardTable';
 
 function App() {
   return (
