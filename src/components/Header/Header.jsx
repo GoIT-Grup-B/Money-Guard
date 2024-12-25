@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { signOutUser } from '../redux/auth/authOps';
+import { signOutUser } from '../../redux/auth/authOps';
 
 import { IoLogOutOutline } from 'react-icons/io5';
 import logo from '../../assets/img/money-guard-logo.png';

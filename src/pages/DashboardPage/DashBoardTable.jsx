@@ -1,7 +1,7 @@
 
 import './DashBoardTable.module.css'; 
 import { NavLink } from "react-router"
-import penLogo from "../../assets/img/pen.svg"
+import penLogo from "../../assets/svg/pen.svg"
 // eslint-disable-next-line react/prop-types
 const DashBoardTable = () => {
     //const [data, setData] = useState([]);
@@ -30,7 +30,7 @@ const DashBoardTable = () => {
       ];
       return (
 
-        <div className="flex justify-center items-center h-screen bg-gray-100 px-10" >
+        <div className="flex justify-center items-center h-screen px-10" >
             <div style={{display:"flex",flexDirection:"row", margin:"0 auto"}}>
                 <div style={{display:"flex", flexDirection:"row", gap:"15px"}} className="flex justify-center items-center h-screen" >
                     <div id="home-and-stats" style={{display:"flex", flexDirection:"column", gap:"15px"}}>
