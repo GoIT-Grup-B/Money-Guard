@@ -3,7 +3,7 @@ import './DashBoardTable.module.css';
 import  { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTransaction } from '../../redux/transaction/transactionOps';
-import penLogo from "../../assets/img/pen.svg"
+import penLogo from "../../assets/svg/pen.svg"
 // eslint-disable-next-line react/prop-types
 const DashBoardTable = () => {
     //const [data, setData] = useState([]);
