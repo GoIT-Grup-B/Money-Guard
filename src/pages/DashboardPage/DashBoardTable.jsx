@@ -48,12 +48,12 @@ const DashBoardTable = () => {
                                 key={transaction.id}
                                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                             >
-                                <td className="px-6 py-4 font-poppins text-sm font-normal leading-6 text-left">{transaction.date}</td>
-                                <td className="px-6 py-4 font-poppins text-sm font-normal leading-6 text-left">{transaction.type}</td>
-                                <td className="px-6 py-4 font-poppins text-sm font-normal leading-6 text-left">{transaction.category}</td>
-                                <td className="px-6 py-4 font-poppins text-sm font-normal leading-6 text-left">{transaction.comment}</td>
-                                <td className="px-6 py-4 font-poppins text-sm font-normal leading-6 text-left">{transaction.sum}</td>
-                                <td className="px-6 py-4 font-poppins text-sm font-normal leading-6 text-left">
+                                <td className="text-[#FBFBFB] px-6 py-4 font-poppins text-sm font-normal leading-6 text-left">{transaction.date}</td>
+                                <td className="text-[#FBFBFB] px-6 py-4 font-poppins text-sm font-normal leading-6 text-left">{transaction.type}</td>
+                                <td className="text-[#FBFBFB] px-6 py-4 font-poppins text-sm font-normal leading-6 text-left">{transaction.category}</td>
+                                <td className="text-[#FBFBFB] px-6 py-4 font-poppins text-sm font-normal leading-6 text-left">{transaction.comment}</td>
+                                <td className="text-[#FBFBFB] px-6 py-4 font-poppins text-sm font-normal leading-6 text-left">{transaction.sum}</td>
+                                <td className="text-[#FBFBFB] px-6 py-4 font-poppins text-sm font-normal leading-6 text-left">
                                     <div style={{display:"flex", flexDirection:"row", gap:"2"}}>
                                         <button>
                                             <img src={penLogo} alt="pen" />
