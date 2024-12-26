@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import authReducer from './auth/authSlice';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import { transactionReducer } from './transaction/transactionSlice';
 
 const authPersistConfig = {
   key: 'auth',
@@ -11,6 +12,7 @@ const authPersistConfig = {
 
 const rootReducer = combineReducers({
   user: persistReducer(authPersistConfig, authReducer),
+  transaction: transactionReducer,
 });
 
 export const store = configureStore({

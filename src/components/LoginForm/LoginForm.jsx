@@ -1,4 +1,3 @@
-import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginUser } from '../../redux/auth/authOps';
@@ -7,69 +6,67 @@ import FormHeader from '../FormHeader/FormHeader';
 import FormFooter from '../FormFooter/FormFooter';
 import mailSvg from '../../assets/svg/mail.svg';
 import passswordSvg from '../../assets/svg/password.svg';
-import { useNavigate } from 'react-router-dom';
-
-const schema = yup.object().shape({
-  email: yup
-    .string()
-    .email('Invalid email format')
-    .required('Email is required'),
-
-  password: yup
-    .string()
-    .min(6, 'Password must be at lest 6 chracters!')
-    .max(12, 'Password can have maximum 12 characters'),
-});
+import { InfinitySpin } from 'react-loader-spinner';
+import { yupLogin } from '../../utils/yupSchema';
 
 function LoginForm() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const isLoggedIn = useSelector((store) => store.user.isLoggedIn);
+  const { loading } = useSelector((store) => store.user);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) });
+  } = useForm({
+    resolver: yupResolver(yupLogin),
+  });
 
   function onSubmit(data) {
     dispatch(loginUser(data));
   }
 
-  if (isLoggedIn) navigate('/dashboard', { replace: true });
   return (
     <div
       className={`flex items-center justify-center min-h-screen bg-[url('/src/assets/img/login-desktop.webp')] bg-cover bg-center`}
     >
       <div className="container mx-auto my-auto max-w-[533px] min-w-[320px] px-[20px] md:px-[62px] py-[98px] md:py[80px] bg-white/10 bg-blur-3xl">
         <FormHeader />
+        {loading ? (
+          <div className="w-full flex justify-center  h-full">
+            <InfinitySpin color="#FFC727" width="200" />
+          </div>
+        ) : (
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-[40px]"
+          >
+            <div className="border-b-2 border-white/40 pb-2 px-2 flex gap-5">
+              <img src={mailSvg} alt="" width="24px" />
+              <input
+                placeholder="E-mail"
+                {...register('email')}
+                className="bg-transparent outline-none w-full"
+              />
+            </div>
+            {errors.email && (
+              <p className="text-xs text-red-400">{errors.email.message}</p>
+            )}
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-[40px]"
-        >
-          <div className="border-b-2 border-white/40 pb-2 px-2 flex gap-5">
-            <img src={mailSvg} alt="" width="24px" />
-            <input
-              placeholder="E-mail"
-              type="text"
-              id="mail"
-              {...register('email')}
-              className="bg-transparent outline-none w-full"
-            />
-          </div>
-          <div className="border-b-2 border-white/40 pb-2 px-2 flex gap-5">
-            <img src={passswordSvg} alt="" width="24px" />
-            <input
-              placeholder="Password"
-              type="password"
-              id="password"
-              {...register('password')}
-              className="bg-transparent outline-none w-full"
-            />
-          </div>
-          <FormFooter type="login" />
-        </form>
+            <div className="border-b-2 border-white/40 pb-2 px-2 flex gap-5">
+              <img src={passswordSvg} alt="" width="24px" />
+              <input
+                placeholder="Password"
+                type="password"
+                {...register('password')}
+                className="bg-transparent outline-none w-full"
+              />
+            </div>
+            {errors.password && (
+              <p className="text-xs text-red-400">{errors.password.message}</p>
+            )}
+            <FormFooter type="login" />
+          </form>
+        )}
       </div>
     </div>
   );
