@@ -1,8 +1,44 @@
-# React + Vite
+# Finovators -> Money-Guard 💰
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Money-Guard** projesine hoş geldiniz. Bu proje, GoIT teknoloji okulu projesi için **Finovators** adlı ekibin çalışmasıdır.
 
-Currently, two official plugins are available:
+[![Static Badge](https://img.shields.io/badge/visit-Money%20Guard-%23623f8b?style=for-the-badge)]()
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ![alt](./src/assets/img/screen_mg.png "dashboard-page-screen")
+
+## Projeye Genel Bakış
+
+Money-Guard, kullanıcıların gelir ve giderlerini yönetmelerine yardımcı olan kişisel bir muhasebe uygulamasıdır. Uygulama, güvenli yetkilendirme, gerçek zamanlı döviz kurları ve finansal verilerin grafiksel temsilleri gibi çeşitli özellikler sunar. Ayrıca, uygulama tamamen duyarlıdır ve tüm cihaz türlerinde sorunsuz bir şekilde çalışır.
+
+## Proje Katkıda Bulunanlar
+
+| Ad Soyad           | GitHub Profili                                     | Rol                       |
+|:-------------------|:---------------------------------------------------|:--------------------------|
+| Heza GÖLCÜK        | [@Hezaarfenn](https://github.com/Hezaarfenn)       | Scrum Master - Developer  |
+| Gizem ÇOBAN        | [@gizemcobannnn](https://github.com/gizemcobannnn) | Team Leader - Developer   |
+| Şubat YÜCEL        | [@subatyucel](https://github.com/subatyucel)       | Developer                 |
+| Rojhat BALTA       | [@rojhatbalta](https://github.com/rojhatbalta)     | Developer                 |
+| Mete CİVELEK       | [@metlandus](https://github.com/metlandus)         | Developer                 |
+| Muhammet UZUNOĞLU  | [@Sailortr](https://github.com/Sailortr)           | Developer                 |
+
+
+## Özellikler
+
+- **Yetkilendirme Sistemi:** Güvenli kullanıcı giriş ve kayıt işlemleri.
+- **Döviz Kurları:** USD ve EUR için gerçek zamanlı döviz kuru bilgileri.
+- **İstatistik Sayfası:** Belirli bir ay veya yıl için gelir ve giderlerin grafiksel gösterimi.
+- **Ana Sayfa:** Tüm işlemlerin genel bir özeti ve detaylı liste özetler.
+- **Duyarlı Tasarım:** Masaüstü, tablet ve mobil cihazlarla tam uyumluluk.
+
+## Beceriler ve Araçlar
+
+- **React:** Dinamik kullanıcı arayüzleri geliştirme.
+- **Redux Toolkit:** Durum yönetimi ve öngörülebilir güncellemeler.
+- **Redux-Persist:** Oturumlar arasında durumun korunması.
+- **JavaScript (ES6+):** Dinamik işlevler için gelişmiş JavaScript kullanımı.
+- **Axios:** API etkileşimi ve HTTP istekleri.
+- **Formik + Yup:** Form yönetimi ve doğrulama.
+- **Chart.js & Recharts:** Etkileşimli grafik oluşturma.
+- **Tailwind CSS:** Bileşen bazlı yerel stil.
+- **Vite:** Hızlı derleme ve canlı yeniden yükleme.
+- **Vercel:** Sorunsuz dağıtım ve barındırma.
