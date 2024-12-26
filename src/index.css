@@ -1,5 +1,9 @@
 @import url(./utils/variables.css);
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @font-face {
   font-family: 'Poppins';
   font-style: normal;
@@ -25,8 +29,7 @@
   overflow: hidden;
 
   color: var(--text-color);
-  background-color: black;
-  background-image: url('../src/assets/img/gradient-desktop.webp');
+  background: linear-gradient(to right, #2E1746, #2E225F);
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
@@ -40,21 +43,6 @@
   -webkit-text-size-adjust: 100%;
 }
 
-@media only screen and (max-width: 767.98px) {
-  :root {
-    background-image: url('../src/assets/img/gradient-mobile.webp');
-  }
-}
-@media only screen and (min-width: 768px) {
-  :root {
-    background-image: url('../src/assets/img/gradient-tablet.webp');
-  }
-}
-@media only screen and (min-width: 1280px) {
-  :root {
-    background-image: url('../src/assets/img/gradient-desktop.webp');
-  }
-}
 
 h1,
 h2,
