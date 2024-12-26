@@ -1,13 +1,14 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../redux/auth/authOps';
 import FormHeader from '../FormHeader/FormHeader';
 import mailSvg from '../../assets/svg/mail.svg';
 import passswordSvg from '../../assets/svg/password.svg';
 import userSvg from '../../assets/svg/user.svg';
 import FormFooter from '../FormFooter/FormFooter';
+import { useNavigate } from 'react-router-dom';
 
 const schema = yup.object().shape({
   username: yup.string().required('Username is required'),
@@ -25,7 +26,9 @@ const schema = yup.object().shape({
 });
 
 function RegistrationForm() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector((store) => store.user.isLoggedIn);
 
   const {
     register,
@@ -41,6 +44,8 @@ function RegistrationForm() {
     const _ = confirmPassword; // Ignore confirmPassword to avoid ESLint error
     dispatch(registerUser(formData));
   }
+
+  if (isLoggedIn) navigate('/dashboard', { replace: true });
 
   return (
     <div

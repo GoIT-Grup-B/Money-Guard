@@ -2,11 +2,12 @@ import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginUser } from '../../redux/auth/authOps';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import FormHeader from '../FormHeader/FormHeader';
 import FormFooter from '../FormFooter/FormFooter';
 import mailSvg from '../../assets/svg/mail.svg';
 import passswordSvg from '../../assets/svg/password.svg';
+import { useNavigate } from 'react-router-dom';
 
 const schema = yup.object().shape({
   email: yup
@@ -22,6 +23,9 @@ const schema = yup.object().shape({
 
 function LoginForm() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector((store) => store.user.isLoggedIn);
+
   const {
     register,
     handleSubmit,
@@ -32,6 +36,7 @@ function LoginForm() {
     dispatch(loginUser(data));
   }
 
+  if (isLoggedIn) navigate('/dashboard', { replace: true });
   return (
     <div
       className={`flex items-center justify-center min-h-screen bg-[url('/src/assets/img/login-desktop.webp')] bg-cover bg-center`}
