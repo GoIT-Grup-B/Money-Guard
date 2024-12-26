@@ -7,10 +7,9 @@ import mailSvg from '../../assets/svg/mail.svg';
 import passswordSvg from '../../assets/svg/password.svg';
 import userSvg from '../../assets/svg/user.svg';
 import FormFooter from '../FormFooter/FormFooter';
-import { yupSchema } from '../../utils/yupSchema';
+import { yupRegister } from '../../utils/yupSchema';
 import { InfinitySpin } from 'react-loader-spinner';
 
-const schema = yupSchema;
 function RegistrationForm() {
   const dispatch = useDispatch();
   const { loading } = useSelector((store) => store.user);
@@ -20,7 +19,7 @@ function RegistrationForm() {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(yupRegister),
   });
 
   function onSubmit(data) {

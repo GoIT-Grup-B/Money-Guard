@@ -19,14 +19,13 @@ export const registerUser = createAsyncThunk(
 export const loginUser = createAsyncThunk(
   'auth/login',
   async (data, thunkAPI) => {
-    console.log(data);
     try {
       console.log(data);
       const res = await axios.post(`${URL}/auth/sign-in`, data);
 
       return res.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.response.data);
     }
   },
 );
@@ -42,7 +41,7 @@ export const signOutUser = createAsyncThunk(
       });
       return {};
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.response.data);
     }
   },
 );

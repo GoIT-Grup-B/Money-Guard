@@ -7,9 +7,7 @@ import FormFooter from '../FormFooter/FormFooter';
 import mailSvg from '../../assets/svg/mail.svg';
 import passswordSvg from '../../assets/svg/password.svg';
 import { InfinitySpin } from 'react-loader-spinner';
-import { yupSchema } from '../../utils/yupSchema';
-
-const schema = yupSchema;
+import { yupLogin } from '../../utils/yupSchema';
 
 function LoginForm() {
   const dispatch = useDispatch();
@@ -20,11 +18,10 @@ function LoginForm() {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(yupLogin),
   });
 
   function onSubmit(data) {
-    console.log(data);
     dispatch(loginUser(data));
   }
 
