@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../redux/auth/authOps';
 import FormHeader from '../FormHeader/FormHeader';
@@ -8,27 +7,13 @@ import mailSvg from '../../assets/svg/mail.svg';
 import passswordSvg from '../../assets/svg/password.svg';
 import userSvg from '../../assets/svg/user.svg';
 import FormFooter from '../FormFooter/FormFooter';
-import { useNavigate } from 'react-router-dom';
+import { yupSchema } from '../../utils/yupSchema';
+import { InfinitySpin } from 'react-loader-spinner';
 
-const schema = yup.object().shape({
-  username: yup.string().required('Username is required'),
-  email: yup.string().email('Invalid email').required('Email is required'),
-  password: yup
-    .string()
-    .min(6, 'Password must be at least 6 characters')
-    .max(12, 'Password can be maximum 12 characters')
-    .required('Password is required'),
-
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref('password'), null], 'Passwords must match')
-    .required('Confirm Password is required'),
-});
-
+const schema = yupSchema;
 function RegistrationForm() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((store) => store.user.isLoggedIn);
+  const { loading } = useSelector((store) => store.user);
 
   const {
     register,
@@ -45,59 +30,78 @@ function RegistrationForm() {
     dispatch(registerUser(formData));
   }
 
-  if (isLoggedIn) navigate('/dashboard', { replace: true });
-
   return (
     <div
       className={`flex items-center justify-center min-h-screen bg-[url('/src/assets/img/register-desktop.webp')] bg-cover bg-center`}
     >
       <div className="container mx-auto my-auto max-w-[533px] min-w-[320px] px-[20px] md:px-[62px] py-[98px] md:py[80px] bg-white/10 bg-blur-3xl">
         <FormHeader />
-
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-[40px]"
-        >
-          <div className="border-b-2 border-white/40 pb-2 px-2 flex gap-5">
-            <img src={userSvg} alt="" width="24px" />
-            <input
-              {...register('username')}
-              placeholder="Name"
-              className="bg-transparent outline-none w-full"
-            />
+        {loading ? (
+          <div className="w-full flex justify-center  h-full">
+            <InfinitySpin color="#FFC727" width="200" />
           </div>
+        ) : (
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-[40px]"
+          >
+            <div className="border-b-2 border-white/40 pb-2 px-2 flex gap-5">
+              <img src={userSvg} alt="" width="24px" />
+              <input
+                {...register('username')}
+                placeholder="Name"
+                className="bg-transparent outline-none w-full"
+              />
+            </div>
+            {errors.username && (
+              <p className="text-xs text-red-400">{errors.username.message}</p>
+            )}
 
-          <div className="border-b-2 border-white/40 pb-2 px-2 flex gap-5">
-            <img src={mailSvg} alt="" width="24px" />
-            <input
-              {...register('email')}
-              placeholder="E-mail"
-              className="bg-transparent outline-none w-full"
-            />
-          </div>
+            <div className="border-b-2 border-white/40 pb-2 px-2 flex gap-5">
+              <img src={mailSvg} alt="" width="24px" />
+              <input
+                {...register('email')}
+                placeholder="E-mail"
+                className="bg-transparent outline-none w-full"
+              />
+            </div>
 
-          <div className="border-b-2 border-white/40 pb-2 px-2 flex gap-5">
-            <img src={passswordSvg} alt="" width="24px" />
-            <input
-              type="password"
-              {...register('password')}
-              placeholder="Password"
-              className="bg-transparent outline-none w-full"
-            />
-          </div>
+            {errors.email && (
+              <p className="text-xs text-red-400">{errors.email.message}</p>
+            )}
 
-          <div className="border-b-2 border-white/40 pb-2 px-2 flex gap-5">
-            <img src={passswordSvg} alt="" width="24px" />
+            <div className="border-b-2 border-white/40 pb-2 px-2 flex gap-5">
+              <img src={passswordSvg} alt="" width="24px" />
+              <input
+                type="password"
+                {...register('password')}
+                placeholder="Password"
+                className="bg-transparent outline-none w-full"
+              />
+            </div>
 
-            <input
-              type="password"
-              {...register('confirmPassword')}
-              placeholder="Confirm password"
-              className="bg-transparent outline-none w-full"
-            />
-          </div>
-          <FormFooter type="register" />
-        </form>
+            {errors.password && (
+              <p className="text-xs text-red-400">{errors.password.message}</p>
+            )}
+
+            <div className="border-b-2 border-white/40 pb-2 px-2 flex gap-5">
+              <img src={passswordSvg} alt="" width="24px" />
+
+              <input
+                type="password"
+                {...register('confirmPassword')}
+                placeholder="Confirm password"
+                className="bg-transparent outline-none w-full"
+              />
+            </div>
+            {errors.confirmPassword && (
+              <p className="text-xs text-red-400">
+                {errors.confirmPassword.message}
+              </p>
+            )}
+            <FormFooter type="register" />
+          </form>
+        )}
       </div>
     </div>
   );
