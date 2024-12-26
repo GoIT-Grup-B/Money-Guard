@@ -21,5 +21,24 @@ export const getTransaction = createAsyncThunk(
           }
     }
 
+);
+//bakıcam
+export const deleteTransaction = createAsyncThunk(
+    "transaction/deleteTable",
+    async(transactionId,thunkAPI)=>{
+        try{
+            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWQiOiI4MWI2NDRjYS0wM2EyLTQyMjItOTRlZi01Y2E2MjhiOGZkMDciLCJpYXQiOjE3MzUyNDg2OTYsImV4cCI6MTAwMDAwMDE3MzUyNDg2OTZ9.Y-Is1PBkkpTw10dJ8yQU-jVG7N6QXcsX3Iei5L5_FgM"
+            //thunkAPI.getState().auth.token; 
+            const response = await axios.delete(`${URL}/transactions/{transactionId}`,{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data;
+        }
+        catch (error) {
+            return thunkAPI.rejectWithValue(error.message ||  'Server error');;
+          }
+    }
 
 );
