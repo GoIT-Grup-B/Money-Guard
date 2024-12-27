@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const URL = 'https://wallet.b.goit.study/api';
 
@@ -7,8 +8,7 @@ export const getTransaction = createAsyncThunk(
     "transaction/getTable",
     async(_,thunkAPI)=>{
         try{
-            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWQiOiI4MWI2NDRjYS0wM2EyLTQyMjItOTRlZi01Y2E2MjhiOGZkMDciLCJpYXQiOjE3MzUyNDg2OTYsImV4cCI6MTAwMDAwMDE3MzUyNDg2OTZ9.Y-Is1PBkkpTw10dJ8yQU-jVG7N6QXcsX3Iei5L5_FgM"
-            //thunkAPI.getState().auth.token; 
+            const token = useSelector((store) => store.user.token);
             const response = await axios.get(`${URL}/transactions`,{
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -22,13 +22,12 @@ export const getTransaction = createAsyncThunk(
     }
 
 );
-//bakıcam
+
 export const deleteTransaction = createAsyncThunk(
     "transaction/deleteTable",
     async(transactionId,thunkAPI)=>{
         try{
-            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWQiOiI4MWI2NDRjYS0wM2EyLTQyMjItOTRlZi01Y2E2MjhiOGZkMDciLCJpYXQiOjE3MzUyNDg2OTYsImV4cCI6MTAwMDAwMDE3MzUyNDg2OTZ9.Y-Is1PBkkpTw10dJ8yQU-jVG7N6QXcsX3Iei5L5_FgM"
-            //thunkAPI.getState().auth.token; 
+            const token = useSelector((store) => store.user.token);
             const response = await axios.delete(`${URL}/transactions/{transactionId}`,{
                 headers: {
                     Authorization: `Bearer ${token}`
