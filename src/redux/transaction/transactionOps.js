@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 
 const URL = 'https://wallet.b.goit.study/api';
 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWQiOiI4MWI2NDRjYS0wM2EyLTQyMjItOTRlZi01Y2E2MjhiOGZkMDciLCJpYXQiOjE3MzUyNDg2OTYsImV4cCI6MTAwMDAwMDE3MzUyNDg2OTZ9.Y-Is1PBkkpTw10dJ8yQU-jVG7N6QXcsX3Iei5L5_FgM";
