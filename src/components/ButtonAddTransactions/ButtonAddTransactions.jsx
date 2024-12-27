@@ -1,8 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import ModalAddTransaction from '../ModalAddTransaction/ModalAddTransaction';
+import { addTransaction, getCategories } from '../../redux/transaction/transactionOps';
 
 const ButtonAddTransactions = () => {
+    const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [categories, setCategories] = useState({});
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const result = await dispatch(getCategories()).unwrap();
+                const categoryMap = result.reduce((acc, category) => {
+                    acc[category.name] = category.id;
+                    return acc;
+                }, {});
+                setCategories(categoryMap);
+            } catch (error) {
+                console.error('Failed to fetch categories:', error);
+            }
+        };
+
+        fetchCategories();
+    }, [dispatch]);
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -12,10 +33,29 @@ const ButtonAddTransactions = () => {
         setIsModalOpen(false);
     };
 
-    const handleSubmit = (transactionData) => {
-        // Here you would typically dispatch an action to add the transaction
-        console.log('Transaction data:', transactionData);
-        handleCloseModal();
+    const handleSubmit = async (transactionData) => {
+        try {
+            const formattedData = {
+                transactionDate: transactionData.date,
+                type: transactionData.type.toUpperCase(),
+                categoryId: transactionData.type === 'income'
+                    ? categories['Income']
+                    : categories[transactionData.category],
+                comment: transactionData.comment,
+                amount: transactionData.type === 'income'
+                    ? transactionData.amount.toString()
+                    : `-${transactionData.amount.toString()}`
+            };
+
+            console.log('Data being sent to API:', formattedData);
+            console.log('Original data from form:', transactionData);
+
+            const response = await dispatch(addTransaction(formattedData)).unwrap();
+            console.log('API Response:', response);
+            handleCloseModal();
+        } catch (error) {
+            console.error('Failed to add transaction:', error);
+        }
     };
 
     return (
