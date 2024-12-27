@@ -15,7 +15,7 @@ const DashBoardTable = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         if (token) {
-            dispatch(getTransaction());
+            dispatch(getTransaction(token));
         }
     }, [dispatch, token]);
 
