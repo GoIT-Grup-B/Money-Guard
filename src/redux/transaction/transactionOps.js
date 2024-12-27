@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+
 const URL = 'https://wallet.b.goit.study/api';
 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWQiOiI4MWI2NDRjYS0wM2EyLTQyMjItOTRlZi01Y2E2MjhiOGZkMDciLCJpYXQiOjE3MzUyNDg2OTYsImV4cCI6MTAwMDAwMDE3MzUyNDg2OTZ9.Y-Is1PBkkpTw10dJ8yQU-jVG7N6QXcsX3Iei5L5_FgM";
 
@@ -39,7 +40,7 @@ export const addTransaction = createAsyncThunk(
 
 export const getTransaction = createAsyncThunk(
     "transaction/getTable",
-    async(_,thunkAPI)=>{
+    async(token,thunkAPI)=>{
         try{
             const response = await axios.get(`${URL}/transactions`,{
                 headers: {
@@ -57,9 +58,9 @@ export const getTransaction = createAsyncThunk(
 
 export const deleteTransaction = createAsyncThunk(
     "transaction/deleteTable",
-    async(transactionId,thunkAPI)=>{
+    async({transactionId,token},thunkAPI)=>{
         try{
-            const response = await axios.delete(`${URL}/transactions/{transactionId}`,{
+            const response = await axios.delete(`${URL}/transactions/${transactionId}`,{
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
