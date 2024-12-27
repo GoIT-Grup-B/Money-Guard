@@ -11,6 +11,7 @@ const Header = () => {
 
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
+  const token = useSelector((store) => store.user.token);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleLogoutClick = () => {
@@ -18,7 +19,7 @@ const Header = () => {
   };
 
   const confirmLogout = () => {
-    dispatch(signOutUser());
+    dispatch(signOutUser(token));
     setIsModalOpen(false);
   };
 
