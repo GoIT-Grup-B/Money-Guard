@@ -40,7 +40,7 @@ const DashBoardTable = () => {
 
 
             <div className="relative overflow-x-auto">
-                <table className="w-full text-sm text-left  text-gray-500 dark:text-gray-400 border-collapse border border-gray-300" style={{margin:"0 auto"}}>
+                <table className="w-full text-sm text-left  text-gray-500 dark:text-gray-400 border-collapse rounded-t-lg border-gray-300" style={{margin:"0 auto"}}>
                     {/* Tablo Başlıkları */}
                     <thead className="bg-[#523B7E99] rounded-t-[20px] text-xs text-gray-700 dark:text-gray-400">
                         <tr className="h-auto max-w-lg rounded-t-[20px] text-base text-[#FCFCFC] dark:text-gray-400" >
