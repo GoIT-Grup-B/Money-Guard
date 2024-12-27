@@ -22,7 +22,7 @@ const DashBoardTable = () => {
 
     const handleDelete = (transactionId) => {
         if (token) {
-            dispatch(deleteTransaction(transactionId));
+            dispatch(deleteTransaction({ transactionId, token }));
         }
     };
 
