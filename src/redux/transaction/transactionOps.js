@@ -74,3 +74,21 @@ export const deleteTransaction = createAsyncThunk(
         }
     }
 );
+
+export const updateTransaction = createAsyncThunk(
+    'transaction/updateTransaction',
+    async ({ transactionId, transactionData }, thunkAPI) => {
+        const state = thunkAPI.getState();
+        const token = state.user.token;
+        try {
+            const response = await axios.patch(`${URL}/transactions/${transactionId}`, transactionData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.message || 'Failed to update transaction');
+        }
+    }
+);
