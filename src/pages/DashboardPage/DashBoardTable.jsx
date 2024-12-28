@@ -81,7 +81,7 @@ const DashBoardTable = () => {
                                         <button className='border border-white dark:border-gray-700 rounded p-1'>
                                             <img src={penLogo} alt="pen" className='border border-white dark:border-gray-700 rounded p-1'/>
                                         </button>
-                                        <button type="button" onClick={() => handleDelete(transaction.id)} className='class="bg-gradient-to-r from-[#ebac44] to-[#a144b5] rounded-[20px] py-3 text-white cursor-pointer transition-opacity hover:opacity-90'>Delete</button>
+                                        <button type="button" onClick={() => handleDelete(transaction.id)} className='bg-gradient-to-r from-[#ebac44] to-[#a144b5] rounded-[20px] px-3 py-2 text-white cursor-pointer transition-opacity hover:opacity-90'>Delete</button>
                                     </div>
                                     </td>
                             </tr>
