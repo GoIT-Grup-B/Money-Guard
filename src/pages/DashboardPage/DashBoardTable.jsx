@@ -25,6 +25,14 @@ const DashBoardTable = () => {
         }
     };
 
+        const formatDate = (dateString) => {
+        const date = new Date(dateString); // Tarihi bir Date nesnesine çevir
+        const day = String(date.getDate()).padStart(2, '0'); // Gün
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Ay
+        const year = String(date.getFullYear()).slice(2); // Yılın son iki hanesi
+        return `${day}.${month}.${year}`;
+      };
+
       if(loading){
         return <p>Loading</p>
       }
@@ -38,7 +46,7 @@ const DashBoardTable = () => {
         <div className="flex justify-center items-center h-screen  px-10" >
 
 
-            <div className="relative overflow-x-auto bg-transparent">
+            <div className=" overflow-y-auto max-h-[50vh] relative bg-transparent">
                 <table className="w-full text-sm text-left bg-transparent  text-gray-500 dark:text-gray-400 border-collapse rounded-t-lg border-gray-300" style={{margin:"0 auto"}}>
                     {/* Tablo Başlıkları */}
                     <thead className="bg-[#523B7E99] rounded-t-[20px] text-xs text-gray-700 dark:text-gray-400">
@@ -58,10 +66,10 @@ const DashBoardTable = () => {
                                 key={transaction.id}
                                 className=" dark:bg-transparent bg-transparent border-b dark:bg-gray-800 dark:border-gray-700"
                             >
-                                <td className="text-[#FBFBFB] bg-transparent px-6 py-4 font-poppins text-sm font-normal leading-6 text-left hover:underline">{transaction.transactionDate}</td>
-                                <td className="text-[#FBFBFB] bg-transparent px-6 py-4 font-poppins text-sm font-normal leading-6 text-left hover:underline"> {transaction.type === "income" ? `+` : `-`}</td>
-                                <td className="text-[#FBFBFB] bg-transparent px-6 py-4 font-poppins text-sm font-normal leading-6 text-left hover:underline">{transaction.categoryId}</td>
-                                <td className="text-[#FBFBFB] bg-transparent px-6 py-4 font-poppins text-sm font-normal leading-6 text-left hover:underline">{transaction.comment}</td>
+                                <td className="text-[#FBFBFB] bg-transparent px-6 py-4 font-poppins text-sm font-normal leading-6 text-left">{formatDate(transaction.transactionDate)}</td>
+                                <td className="text-[#FBFBFB] bg-transparent px-6 py-4 font-poppins text-sm font-normal leading-6 text-left"> {transaction.type === "income" ? `+` : `-`}</td>
+                                <td className="text-[#FBFBFB] bg-transparent px-6 py-4 font-poppins text-sm font-normal leading-6 text-left">{transaction.category}</td>
+                                <td className="text-[#FBFBFB] bg-transparent px-6 py-4 font-poppins text-sm font-normal leading-6 text-left">{transaction.comment}</td>
                                 <td
                                     className={`px-6 py-4 bg-transparent font-poppins text-sm font-normal leading-6 text-left ${
                                         transaction.amount < 10000 ? "text-[#FF868D]" : "text-[#FFB627]"
