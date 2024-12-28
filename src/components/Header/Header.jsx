@@ -29,25 +29,25 @@ const Header = () => {
 
   return (
     <div className="flex justify-between p-4 shadow-xl bg-gradient-to-r from-[#2e1746] to-[#2e225f]">
-      <div className="flex flex-col justify-center items-center ">
-        <img src={logo} alt="Money Guard Logo" width="24px" />
-        <h2>Money Guard</h2>
+      <div className="flex flex-col justify-center items-center">
+        <img src={logo} alt="Money Guard Logo" className="w-6 tablet:w-8" />
+        <h2 className="text-sm tablet:text-lg text-white">Money Guard</h2>
       </div>
-      <div className="flex items-center gap-1 text-white/40">
-        <p>{user.username}</p>
-        <PiLineVertical size={30} />
+      <div className="flex items-center gap-2 text-white/70">
+        <p className="text-sm tablet:text-base">{user.username}</p>
+        <PiLineVertical size={30} className="hidden tablet:block" />
         <div
           onClick={handleLogoutClick}
           className="flex items-center gap-2 cursor-pointer hover:scale-90"
         >
-          <IoLogOutOutline />
+          <IoLogOutOutline className="text-lg tablet:text-2xl" />
           <span className="hidden tablet:block">Exit</span>
         </div>
       </div>
 
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-10">
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[533px] h-[447px] z-20 bg-[#3e2f85]/80 backdrop-blur border-solid rounded-lg flex flex-col items-center justify-center">
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-10 flex items-center justify-center">
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 size-full tablet:w-[533px] tablet:h-[447px] z-20 bg-[#3e2f85] tablet:bg-[#3e2f85]/80 backdrop-blur border-solid tablet:rounded-lg flex flex-col items-center justify-center">
             <div className="flex flex-col gap-14">
               <div className="flex flex-col items-center justify-center">
                 <img src={logo} alt="Money Guard Logo" width="40px" />
