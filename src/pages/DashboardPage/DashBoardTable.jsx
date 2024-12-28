@@ -47,36 +47,36 @@ const DashBoardTable = () => {
 
 
             <div className=" overflow-y-auto max-h-[50vh] relative bg-transparent">
-                <table className="w-full text-sm text-left bg-transparent  text-gray-500 dark:text-gray-400 border-collapse rounded-t-lg border-gray-300" style={{margin:"0 auto"}}>
+                <table className="w-full text-sm text-left bg-transparent text-gray-500 dark:text-gray-400 border-collapse rounded-t-lg border-gray-300" style={{margin:"0 auto"}}>
                     {/* Tablo Başlıkları */}
                     <thead className="bg-[#523B7E99] rounded-t-[20px] text-xs text-gray-700 dark:text-gray-400">
-                        <tr className="h-auto max-w-lg rounded-t-[20px] text-base text-[#FCFCFC] dark:text-gray-400" >
-                            <th scope="col" className="text-[#FBFBFB] px-6 py-3">Date</th>
-                            <th scope="col" className="text-[#FBFBFB] px-6 py-3">Type</th>
-                            <th scope="col" className="text-[#FBFBFB] px-6 py-3">Category</th>
-                            <th scope="col" className="text-[#FBFBFB] px-6 py-3">Comment</th>
-                            <th scope="col" className="text-[#FBFBFB] px-6 py-3">Sum</th>
-                            <th scope="col" className="text-[#FBFBFB] px-6 py-3" style={{ color: '#523B7E99' }}></th>
+                        <tr className="h-16 max-w-lg rounded-[90px] text-base text-[#FCFCFC] dark:text-gray-400" >
+                            <th scope="col" className="text-[#FBFBFB] px-7 py-3">Date</th>
+                            <th scope="col" className="text-[#FBFBFB] px-7 py-3">Type</th>
+                            <th scope="col" className="text-[#FBFBFB] px-7 py-3">Category</th>
+                            <th scope="col" className="text-[#FBFBFB] px-7 py-3">Comment</th>
+                            <th scope="col" className="text-[#FBFBFB] px-7 py-3">Sum</th>
+                            <th scope="col" className="text-[#FBFBFB] px-7 py-3" style={{ color: '#523B7E99' }}></th>
                         </tr>
                     </thead>
                     {/* Tablo Gövdesi */}
-                    <tbody>
+                    <tbody className="divide-y divide-gray-100 divide-opacity-20">
                         {transactions.map((transaction) => (
                             <tr
                                 key={transaction.id}
-                                className=" dark:bg-transparent bg-transparent border-b dark:bg-gray-800 dark:border-gray-700"
+                                className="h-12 dark:bg-transparent bg-transparent border-b dark:bg-gray-800 dark:border-gray-700 divide-y divide-gray-100 divide-opacity-20"
                             >
-                                <td className="text-[#FBFBFB] bg-transparent px-6 py-4 font-poppins text-sm font-normal leading-6 text-left">{formatDate(transaction.transactionDate)}</td>
-                                <td className="text-[#FBFBFB] bg-transparent px-6 py-4 font-poppins text-sm font-normal leading-6 text-left"> {transaction.type === "income" ? `+` : `-`}</td>
-                                <td className="text-[#FBFBFB] bg-transparent px-6 py-4 font-poppins text-sm font-normal leading-6 text-left">{transaction.category}</td>
-                                <td className="text-[#FBFBFB] bg-transparent px-6 py-4 font-poppins text-sm font-normal leading-6 text-left">{transaction.comment}</td>
+                                <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left">{formatDate(transaction.transactionDate)}</td>
+                                <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left"> {transaction.type === "income" ? `+` : `-`}</td>
+                                <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left">{transaction.category}</td>
+                                <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left">{transaction.comment}</td>
                                 <td
-                                    className={`px-6 py-4 bg-transparent font-poppins text-sm font-normal leading-6 text-left ${
+                                    className={`px-6 py-3 bg-transparent font-poppins text-sm font-normal leading-6 text-left ${
                                         transaction.amount < 10000 ? "text-[#FF868D]" : "text-[#FFB627]"
                                     }`}
                                     >  {transaction.amount}
                                     </td>
-                               <td className="text-[#FBFBFB] bg-transparent px-6 py-4 font-poppins text-sm font-normal leading-6 text-left">
+                               <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left">
                                     <div style={{display:"flex", flexDirection:"row", gap:"2"}}>
                                         <button className='border border-white dark:border-gray-700 rounded p-1'>
                                             <img src={penLogo} alt="pen" className='border border-white dark:border-gray-700 rounded p-1'/>
