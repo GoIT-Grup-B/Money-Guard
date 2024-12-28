@@ -1,5 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import authReducer from './auth/authSlice';
+import balanceReducer from './balanceSlice';
+import { transactionsReducer } from './transactionsSlice';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
@@ -11,6 +13,8 @@ const authPersistConfig = {
 
 const rootReducer = combineReducers({
   user: persistReducer(authPersistConfig, authReducer),
+  balance: balanceReducer,
+  transactions: transactionsReducer,
 });
 
 export const store = configureStore({
