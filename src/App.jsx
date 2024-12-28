@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { fetchCurrentUser } from './redux/auth/authOps';
 import AppRoutes from './routes/AppRoutes';
 import Header from './components/Header/Header';
 
 const App = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -14,9 +16,11 @@ const App = () => {
     }
   }, [dispatch]);
 
+  const shouldShowHeader = location.pathname === '/dashboard';
+
   return (
     <div>
-      <Header />
+      {shouldShowHeader && <Header />}
       <main>
         <AppRoutes />
       </main>
