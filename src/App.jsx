@@ -1,23 +1,27 @@
-import { Route, Routes } from 'react-router-dom';
-import './index.css';
-import LoginPage from './pages/LoginPage/LoginPage';
-import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
-import DashboardPage from './pages/DashboardPage/DashboardPage';
-import AddTransactionForm from './components/AddTransactionForm/AddTransactionForm';
-import DashBoardTable from './pages/DashboardPage/DashBoardTable';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchCurrentUser } from './redux/auth/authOps';
+import AppRoutes from './routes/AppRoutes';
+import Header from './components/Header/Header';
 
-function App() {
+const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      dispatch(fetchCurrentUser(token));
+    }
+  }, [dispatch]);
+
   return (
-    
-    <>
-      <Routes>
-        <Route path="login" element={<LoginPage />} />
-        <Route path="register" element={<RegistrationPage />} />
-        <Route path="dashboard" element={<DashboardPage />} />
-        <Route path="dashboard" element={<DashBoardTable/>} />
-      </Routes>
-    </>
+    <div>
+      <Header />
+      <main>
+        <AppRoutes />
+      </main>
+    </div>
   );
-}
+};
 
 export default App;
