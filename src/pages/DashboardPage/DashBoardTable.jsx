@@ -19,6 +19,7 @@ const DashBoardTable = () => {
             dispatch(getTransaction());
             fetchCategories();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, token]);
 
      const fetchCategories = async () => {
@@ -75,7 +76,7 @@ const DashBoardTable = () => {
                         {transactions.map((transaction) => (
                             <tr
                                 key={transaction.id}
-                                className="h-12 dark:bg-transparent bg-transparent border-b dark:bg-gray-800 dark:border-gray-700 border-b-0 divide-opacity-20"
+                                className="h-12 dark:bg-transparent bg-transparent border-b dark:bg-gray-800 dark:border-gray-700 divide-opacity-20"
                             >
                                 <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left">{formatDate(transaction.transactionDate)}</td>
                                 <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left"> {transaction.type === "INCOME" ? `+` : `-`}</td>
