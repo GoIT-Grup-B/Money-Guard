@@ -58,8 +58,8 @@ const DashBoardTable = () => {
     }
 
     return (
-        <div className="flex justify-center items-center h-screen px-10 w-11/12">
-            <div className="relative max-h-[400px] bg-transparent tablet:w-4/5 tablet:block mobile:hidden">
+        <div className="flex justify-center items-center h-screen">
+            <div className="relative bg-transparent tablet:w-4/5 tablet:block mobile:hidden">
                 <table className="sm:table w-full tablet:rounded-lg  text-sm text-left bg-transparent text-gray-500 dark:text-gray-400 border-collapse rounded-lg border-gray-300" style={{ margin: "0 auto" }}>
                     <thead className="bg-[#523B7E99] rounded-[20px] text-xs text-gray-700 dark:text-gray-400">
                         <tr className="h-auto max-w-lg  rounded-lg text-base text-[#FCFCFC] dark:text-gray-400">
@@ -75,7 +75,7 @@ const DashBoardTable = () => {
                         {transactions.map((transaction) => (
                             <tr
                                 key={transaction.id}
-                                className="h-12 dark:bg-transparent bg-transparent border-b dark:bg-gray-800 dark:border-gray-700 border-b-0 divide-y divide-gray-100 divide-opacity-20"
+                                className="h-12 dark:bg-transparent bg-transparent border-b dark:bg-gray-800 dark:border-gray-700 divide-y divide-gray-100 divide-opacity-20"
                             >
                                 <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left">{formatDate(transaction.transactionDate)}</td>
                                 <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left"> {transaction.type === "INCOME" ? `+` : `-`}</td>

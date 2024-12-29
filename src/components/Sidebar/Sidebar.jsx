@@ -10,7 +10,7 @@ const Sidebar = () => {
   const currency = useSelector((state) => state.balance.currency);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-800 to-purple-900 text-white font-sans">
+    <div className="bg-gradient-to-b from-purple-800 to-purple-900 text-white font-sans">
       <header className="flex justify-between items-center p-4 border-b border-purple-600">
         <div className="flex gap-4">
           <button className="flex items-center gap-1 hover:text-purple-300">
