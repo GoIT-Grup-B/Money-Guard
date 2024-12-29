@@ -7,7 +7,7 @@ import penLogo from "../../assets/svg/pen.svg";
 import ModalEditTransaction from '../../components/ModalEditTransaction/ModalEditTransaction';
 //gizem
 const DashBoardTable = () => {
-    const { transactions, loading, error } = useSelector((state) => state.transaction);
+    const { transactions, error } = useSelector((state) => state.transaction);
     const token = useSelector((state) => state.user.token);
     const dispatch = useDispatch();
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -53,17 +53,13 @@ const DashBoardTable = () => {
         return `${day}.${month}.${year}`;
     };
 
-    if (loading) {
-        return <p>Loading</p>;
-    }
-
     if (error) {
         return <div>Error: {error}</div>;
     }
 
     return (
-        <div className="flex justify-center items-center h-screen px-10">
-            <div className="relative overflow-y-auto max-h-[400px] bg-transparent sm:max-w-4xl tablet:block mobile:hidden">
+        <div className="flex justify-center items-center h-screen px-10 w-11/12">
+            <div className="relative max-h-[400px] bg-transparent tablet:w-4/5 tablet:block mobile:hidden">
                 <table className="sm:table w-full tablet:rounded-lg  text-sm text-left bg-transparent text-gray-500 dark:text-gray-400 border-collapse rounded-lg border-gray-300" style={{ margin: "0 auto" }}>
                     <thead className="bg-[#523B7E99] rounded-[20px] text-xs text-gray-700 dark:text-gray-400">
                         <tr className="h-auto max-w-lg  rounded-lg text-base text-[#FCFCFC] dark:text-gray-400">
