@@ -4,7 +4,7 @@ import Sidebar from "../../components/Sidebar/Sidebar"
 
 const DashboardPage = () => {
     return (
-        <div className="flex">
+        <div className="flex flex-col desktop:flex-row">
             <Sidebar />
             <DashBoardTable />
             <ButtonAddTransactions />

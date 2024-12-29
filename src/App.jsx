@@ -19,12 +19,12 @@ const App = () => {
   const shouldShowHeader = location.pathname === '/dashboard';
 
   return (
-    <div>
+    <>
       {shouldShowHeader && <Header />}
       <main>
         <AppRoutes />
       </main>
-    </div>
+    </>
   );
 };
 
