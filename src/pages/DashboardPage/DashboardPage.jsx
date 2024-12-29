@@ -1,15 +1,16 @@
-import Header from '../../components/Header/Header';
-import DashBoardTable from '../../pages/DashboardPage/DashBoardTable';
-import ButtonAddTransaction from "../../components/ButtonAddTransactions/ButtonAddTransactions.jsx"
+
+import DashBoardTable from "../../pages/DashboardPage/DashBoardTable"
+import ButtonAddTransactions from "../../components/ButtonAddTransactions/ButtonAddTransactions"
+import Sidebar from "../../components/Sidebar/Sidebar"
 
 const DashboardPage = () => {
-  return (
-    <div>
-      <Header />
-          <DashBoardTable />
-          <ButtonAddTransaction/>
-    </div>
-  );
-};
+    return (
+        <div className="flex">
+            <Sidebar />
+            <DashBoardTable />
+            <ButtonAddTransactions />
+        </div>
+    )
+}
 
 export default DashboardPage;
