@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './DashBoardTable.module.css';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
