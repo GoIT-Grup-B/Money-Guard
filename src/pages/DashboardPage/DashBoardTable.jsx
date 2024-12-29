@@ -63,8 +63,8 @@ const DashBoardTable = () => {
 
     return (
         <div className="flex justify-center items-center h-screen px-10">
-            <div className="relative overflow-y-auto max-h-[400px] bg-transparent">
-                <table className="w-full text-sm text-left bg-transparent text-gray-500 dark:text-gray-400 border-collapse rounded-t-lg border-gray-300" style={{ margin: "0 auto" }}>
+            <div className="relative overflow-y-auto max-h-[400px] bg-transparent sm:max-w-4xl  md:block">
+                <table className="sm:table w-full text-sm text-left bg-transparent text-gray-500 dark:text-gray-400 border-collapse rounded-t-lg border-gray-300" style={{ margin: "0 auto" }}>
                     <thead className="bg-[#523B7E99] rounded-t-[20px] text-xs text-gray-700 dark:text-gray-400">
                         <tr className="h-auto max-w-lg rounded-t-[20px] text-base text-[#FCFCFC] dark:text-gray-400">
                             <th scope="col" className="text-[#FBFBFB] px-6 py-3">Date</th>
@@ -82,18 +82,18 @@ const DashBoardTable = () => {
                                 className="h-12 dark:bg-transparent bg-transparent border-b dark:bg-gray-800 dark:border-gray-700 border-b-0 divide-y divide-gray-100 divide-opacity-20"
                             >
                                 <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left">{formatDate(transaction.transactionDate)}</td>
-                                <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left"> {transaction.type === "income" ? `+` : `-`}</td>
+                                <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left"> {transaction.type === "INCOME" ? `+` : `-`}</td>
                                 <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left"> {categories[transaction.categoryId] || "Unknown"}</td>
                                 <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left">{transaction.comment}</td>
                                 <td
-                                    className={`px-6 py-3 bg-transparent font-poppins text-sm font-normal leading-6 text-left ${transaction.amount < 0 ? "text-[#ff5760]" : "text-[#24c516]"
-                                        }`}
-                                >  {transaction.amount}
+                                    className={`px-6 py-3 bg-transparent font-poppins text-sm font-normal leading-6 text-left ${transaction.type === "INCOME" ? "text-[#FFB627]" : "text-[#FF868D]"
+                                        }`}                                                             
+                                > {Math.abs(transaction.amount)}
                                 </td>
                                 <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left">
                                     <div style={{ display: "flex", flexDirection: "row", gap: "2" }}>
                                         <button className='border-none outline-none focus:ring-0 p-2 bg-transparent mr-2' onClick={() => handleEdit(transaction)}>
-                                            <img src={penLogo} alt="pen" className='w-6 h-6 border-none dark:border-gray-700 rounded p-1' />
+                                            <img src={penLogo} alt="pen" className='w-6 h-6border-none dark:border-gray-700 rounded p-1' />
                                         </button>
                                         <button type="button" onClick={() => handleDelete(transaction.id)} className='bg-gradient-to-r from-[#ebac44] to-[#a144b5] rounded-[20px] px-3 py-2 text-white cursor-pointer transition-opacity hover:opacity-90'>Delete</button>
                                     </div>
@@ -102,6 +102,65 @@ const DashBoardTable = () => {
                         ))}
                     </tbody>
                 </table>
+                
+            </div>
+
+            <div className="block sm:hidden">
+            <div className="space-y-4">
+                {transactions.map((transaction) => (
+                    <div
+                        key={transaction.id}
+                        className="bg-transparent border border-gray-700 rounded-lg p-4"
+                    >
+                        <div className="flex justify-between items-center mb-2">
+                            <span className="text-[#FBFBFB]">Date:</span>
+                            <span className="text-[#FBFBFB]">
+                                {formatDate(transaction.transactionDate)}
+                            </span>
+                        </div>
+                        <div className="flex justify-between items-center mb-2">
+                            <span className="text-[#FBFBFB]">Type:</span>
+                            <span className="text-[#FBFBFB]">
+                                {transaction.type === "INCOME" ? "+" : "-"}
+                            </span>
+                        </div>
+                        <div className="flex justify-between items-center mb-2">
+                            <span className="text-[#FBFBFB]">Category:</span>
+                            <span className="text-[#FBFBFB]">
+                                {categories[transaction.categoryId] || "Unknown"}
+                            </span>
+                        </div>
+                        <div className="flex justify-between items-center mb-2">
+                            <span className="text-[#FBFBFB]">Comment:</span>
+                            <span className="text-[#FBFBFB]">
+                                {transaction.comment}
+                            </span>
+                        </div>
+                        <div className="flex justify-between items-center mb-4">
+                            <span className="text-[#FBFBFB]">Sum:</span>
+                            <span className={`${transaction.type === "INCOME" ? "text-[#FFB627]" : "text-[#FF868D]"}`}>
+                            {Math.abs(transaction.amount)} 
+                        </span>
+
+                        </div>
+                        <div className="flex justify-end gap-2">
+                            <button 
+                                className="border-none outline-none focus:ring-0 p-2 bg-transparent"
+                                onClick={() => handleEdit(transaction)}
+                            >
+                                <img src={penLogo} alt="pen" className="w-6 h-6 rounded p-1" />
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => handleDelete(transaction.id)}
+                                className="bg-gradient-to-r from-[#ebac44] to-[#a144b5] rounded-[20px] px-3 py-2 text-white transition-opacity hover:opacity-90"
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
             </div>
             {selectedTransaction && (
                 <ModalEditTransaction
@@ -111,6 +170,7 @@ const DashBoardTable = () => {
                 />
             )}
         </div>
+        
     );
 };
 
