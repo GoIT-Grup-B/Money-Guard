@@ -54,6 +54,7 @@ const Statistics = () => {
   const [selectedMonth, setSelectedMonth] = useState('03');
   const [selectedYear, setSelectedYear] = useState(2023);
   const [expenses, setExpenses] = useState([]);
+  const [incomes, setIncomes] = useState('');
   const [loading, setLoading] = useState(false);
 
   const data = {
@@ -71,7 +72,7 @@ const Statistics = () => {
 
   const token = useSelector((store) => store.user.token);
 
-  const fetchExpenses = async () => {
+  const fetchExpensesAndDeposits = async () => {
     setLoading(true);
     try {
       const response = await Axios.get(
@@ -88,8 +89,12 @@ const Statistics = () => {
         const matchedCategory = apiData.find((item) => item.name === category);
         return matchedCategory ? matchedCategory.amount : 0;
       });
+      const depositsData = apiData
+        .filter((tx) => tx.amount > 0)
+        .reduce((total, tx) => total + tx.amount / 100, 0);
 
       setExpenses(expensesData);
+      setIncomes(depositsData);
     } catch (error) {
       console.error("API'den veri çekilirken hata oluştu:", error);
       setExpenses(Array(chartCategories.length).fill(0));
@@ -99,7 +104,7 @@ const Statistics = () => {
   };
 
   useEffect(() => {
-    fetchExpenses();
+    fetchExpensesAndDeposits();
   }, [selectedMonth, selectedYear]);
 
   return (
@@ -147,7 +152,7 @@ const Statistics = () => {
           <strong>Expenses:</strong> € {totalExpenses.toFixed(2)}
         </div>
         <div>
-          <strong>Income:</strong> € {(totalExpenses * 1.2).toFixed(2)}
+          <strong>Income:</strong> € {incomes.toFixed(2)}
         </div>
       </div>
     </div>
