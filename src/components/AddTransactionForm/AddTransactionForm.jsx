@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./datepicker.css";
+import { useDispatch } from 'react-redux';
+import { getTransaction } from '../../redux/transaction/transactionOps';
 
 const EXPENSE_CATEGORIES = [
     'Main expenses',
@@ -17,21 +19,23 @@ const EXPENSE_CATEGORIES = [
 ];
 
 const AddTransactionForm = ({ onSubmit, onCancel }) => {
+    const dispatch = useDispatch();
     const [isIncome, setIsIncome] = useState(true);
     const [amount, setAmount] = useState('');
     const [date, setDate] = useState(new Date());
     const [comment, setComment] = useState('');
     const [category, setCategory] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        onSubmit({
+        await onSubmit({
             type: isIncome ? 'income' : 'expense',
             amount: parseFloat(amount),
             date: date.toISOString().split('T')[0],
             comment,
             ...((!isIncome) && { category })
         });
+        dispatch(getTransaction());
     };
 
     const textColor = isIncome ? 'text-[#ebac44]' : 'text-[#a144b5]';
