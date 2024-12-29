@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import "../AddTransactionForm/datepicker.css";
 import { useDispatch } from 'react-redux';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { updateTransaction } from '../../redux/transaction/transactionOps';
 
 const EXPENSE_CATEGORIES = [
@@ -21,16 +20,20 @@ const EXPENSE_CATEGORIES = [
 const EditTransactionForm = ({ transaction, onClose }) => {
     const dispatch = useDispatch();
     const [isIncome, setIsIncome] = useState(transaction.type === 'income');
-    const [amount, setAmount] = useState('');
-    const [date, setDate] = useState(new Date());
-    const [comment, setComment] = useState('');
-    const [category, setCategory] = useState('');
+    const [amount, setAmount] = useState(transaction.amount);
+    const [date, setDate] = useState(new Date(transaction.date));
+    const [comment, setComment] = useState(transaction.comment);
+    const [category, setCategory] = useState(transaction.category || '');
+
+    // Add effect to update isIncome when transaction changes
+    useEffect(() => {
+        console.log('Transaction type:', transaction.type);
+        setIsIncome(transaction.type === 'income');
+    }, [transaction]);
 
     useEffect(() => {
         if (transaction.date) {
-            console.log('Original transaction date:', transaction.date);
             const parsedDate = new Date(transaction.date);
-            console.log('Parsed date:', parsedDate);
             if (!isNaN(parsedDate)) {
                 setDate(parsedDate);
             } else {
@@ -45,31 +48,25 @@ const EditTransactionForm = ({ transaction, onClose }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Submitting form with data:', {
-            transactionId: transaction.id,
-            transactionData: {
-                type: isIncome ? 'income' : 'expense',
-                amount: parseFloat(amount),
-                date: date.toISOString(),
-                comment,
-                category
-            }
-        });
         dispatch(updateTransaction(transaction.id, {
             type: isIncome ? 'income' : 'expense',
             amount: parseFloat(amount),
             date: date.toISOString(),
             comment,
-            category
+            category: isIncome ? '' : category
         }));
         onClose();
     };
+
+    const textColor = isIncome ? 'text-[#ebac44]' : 'text-[#a144b5]';
 
     return (
         <div className="edit-transaction-form p-4 rounded-lg shadow-md">
             <form className="flex flex-col justify-center items-center max-w-[394px] gap-5 w-full" onSubmit={handleSubmit}>
                 <div className="flex items-center justify-center gap-8 mb-5">
-                    Income/Expense
+                    <span className={`text-lg ${isIncome ? 'text-[#ebac44]' : 'text-[#a144b5]'}`}>
+                        Income/Expense
+                    </span>
                 </div>
 
                 {!isIncome && (
@@ -97,26 +94,25 @@ const EditTransactionForm = ({ transaction, onClose }) => {
                     <div className="flex-1">
                         <input
                             type="number"
-                            className={`w-full bg-transparent border-b border-white/30 py-2.5 text-base placeholder:text-white/50 focus:outline-none text-center`}
+                            className={`w-full bg-transparent border-b border-white/30 py-2.5 text-base placeholder:text-white/50 focus:outline-none text-center ${textColor}`}
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
                             placeholder="0.00"
                             required
                         />
                     </div>
-
                     <div className="flex-1">
                         <DatePicker
-                            selected={date}
+                            // selected={date}
                             onChange={(date) => setDate(date)}
                             dateFormat="dd.MM.yyyy"
-                            className="w-full bg-transparent border-b border-white/30 py-2.5 text-white text-base focus:outline-none text-center"
+                            className={`w-full bg-transparent border-b border-white/30 py-2.5 text-white text-base focus:outline-none text-center ${textColor}`}
                         />
                     </div>
                 </div>
                 <input
                     type="text"
-                    className={`w-full bg-transparent border-b border-white/30 py-2.5 text-base placeholder:text-white/50 focus:outline-none`}
+                    className={`w-full bg-transparent border-b border-white/30 py-2.5 text-base placeholder:text-white/50 focus:outline-none ${textColor}`}
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     placeholder="Comment"
@@ -127,7 +123,7 @@ const EditTransactionForm = ({ transaction, onClose }) => {
                         type="submit"
                         className="bg-gradient-to-r from-[#ebac44] to-[#a144b5] rounded-[20px] py-3 text-white cursor-pointer transition-opacity hover:opacity-90"
                     >
-                        ADD
+                        SAVE
                     </button>
                     <button
                         type="button"
