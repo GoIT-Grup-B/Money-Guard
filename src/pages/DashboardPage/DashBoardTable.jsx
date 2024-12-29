@@ -63,7 +63,7 @@ const DashBoardTable = () => {
 
     return (
         <div className="flex justify-center items-center h-screen px-10">
-            <div className="relative overflow-y-auto max-h-[400px] bg-transparent sm:max-w-4xl  md:block">
+            <div className="relative overflow-y-auto max-h-[400px] bg-transparent sm:max-w-4xl tablet:block mobile:hidden">
                 <table className="sm:table w-full text-sm text-left bg-transparent text-gray-500 dark:text-gray-400 border-collapse rounded-t-lg border-gray-300" style={{ margin: "0 auto" }}>
                     <thead className="bg-[#523B7E99] rounded-t-[20px] text-xs text-gray-700 dark:text-gray-400">
                         <tr className="h-auto max-w-lg rounded-t-[20px] text-base text-[#FCFCFC] dark:text-gray-400">
@@ -105,7 +105,7 @@ const DashBoardTable = () => {
                 
             </div>
 
-            <div className="block sm:hidden">
+            <div className="mobile:block tablet:hidden">
             <div className="space-y-4">
                 {transactions.map((transaction) => (
                     <div
