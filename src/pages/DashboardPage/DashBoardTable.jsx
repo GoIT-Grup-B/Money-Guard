@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import './DashBoardTable.module.css';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTransaction, deleteTransaction } from '../../redux/transaction/transactionOps';
+import { getTransaction, deleteTransaction ,getCategories } from '../../redux/transaction/transactionOps';
 import penLogo from "../../assets/svg/pen.svg";
 import ModalEditTransaction from '../../components/ModalEditTransaction/ModalEditTransaction';
 
@@ -12,16 +12,31 @@ const DashBoardTable = () => {
     const dispatch = useDispatch();
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
-
+    const [categories, setCategories] = useState({});
+    
     useEffect(() => {
         if (token) {
-            dispatch(getTransaction(token));
+            dispatch(getTransaction());
+            fetchCategories();
         }
     }, [dispatch, token]);
 
-    const handleDelete = (transactionId) => {
+     const fetchCategories = async () => {
+        try {
+            const result = await dispatch(getCategories()).unwrap();
+            const categoryMap = result.reduce((acc, category) => {
+                acc[category.id] = category.name; 
+                return acc;
+            }, {});
+            setCategories(categoryMap);
+        } catch (error) {
+            console.error('Failed to fetch categories:', error);
+        }
+    };
+    const handleDelete = async(transactionId) => {
         if (token) {
-            dispatch(deleteTransaction({ transactionId, token }));
+            await dispatch(deleteTransaction({ transactionId }));
+            dispatch(getTransaction());
         }
     };
 
@@ -48,7 +63,7 @@ const DashBoardTable = () => {
 
     return (
         <div className="flex justify-center items-center h-screen px-10">
-            <div className="relative overflow-x-auto bg-transparent">
+            <div className="relative overflow-y-auto max-h-[400px] bg-transparent">
                 <table className="w-full text-sm text-left bg-transparent text-gray-500 dark:text-gray-400 border-collapse rounded-t-lg border-gray-300" style={{ margin: "0 auto" }}>
                     <thead className="bg-[#523B7E99] rounded-t-[20px] text-xs text-gray-700 dark:text-gray-400">
                         <tr className="h-auto max-w-lg rounded-t-[20px] text-base text-[#FCFCFC] dark:text-gray-400">
@@ -64,11 +79,11 @@ const DashBoardTable = () => {
                         {transactions.map((transaction) => (
                             <tr
                                 key={transaction.id}
-                                className="h-12 dark:bg-transparent bg-transparent border-b dark:bg-gray-800 dark:border-gray-700 divide-y divide-gray-100 divide-opacity-20"
+                                className="h-12 dark:bg-transparent bg-transparent border-b dark:bg-gray-800 dark:border-gray-700 border-b-0 divide-y divide-gray-100 divide-opacity-20"
                             >
                                 <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left">{formatDate(transaction.transactionDate)}</td>
                                 <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left"> {transaction.type === "income" ? `+` : `-`}</td>
-                                <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left">{transaction.category}</td>
+                                <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left"> {categories[transaction.categoryId] || "Unknown"}</td>
                                 <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left">{transaction.comment}</td>
                                 <td
                                     className={`px-6 py-3 bg-transparent font-poppins text-sm font-normal leading-6 text-left ${transaction.amount < 0 ? "text-[#ff5760]" : "text-[#24c516]"
@@ -77,8 +92,8 @@ const DashBoardTable = () => {
                                 </td>
                                 <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left">
                                     <div style={{ display: "flex", flexDirection: "row", gap: "2" }}>
-                                        <button className='border border-white dark:border-gray-700 rounded p-1' onClick={() => handleEdit(transaction)}>
-                                            <img src={penLogo} alt="pen" className='border border-white dark:border-gray-700 rounded p-1' />
+                                        <button className='border-none outline-none focus:ring-0 p-0 bg-transparent mr-2' onClick={() => handleEdit(transaction)}>
+                                            <img src={penLogo} alt="pen" className='border-none dark:border-gray-700 rounded p-1' />
                                         </button>
                                         <button type="button" onClick={() => handleDelete(transaction.id)} className='bg-gradient-to-r from-[#ebac44] to-[#a144b5] rounded-[20px] px-3 py-2 text-white cursor-pointer transition-opacity hover:opacity-90'>Delete</button>
                                     </div>
