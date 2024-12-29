@@ -1,6 +1,5 @@
-import  { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './DashBoardTable.module.css';
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTransaction, deleteTransaction ,getCategories } from '../../redux/transaction/transactionOps';
 import penLogo from "../../assets/svg/pen.svg";
@@ -46,10 +45,10 @@ const DashBoardTable = () => {
     };
 
     const formatDate = (dateString) => {
-        const date = new Date(dateString); // Tarihi bir Date nesnesine çevir
-        const day = String(date.getDate()).padStart(2, '0'); // Gün
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Ay
-        const year = String(date.getFullYear()).slice(2); // Yılın son iki hanesi
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = String(date.getFullYear()).slice(2);
         return `${day}.${month}.${year}`;
     };
 
