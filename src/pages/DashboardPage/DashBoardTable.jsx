@@ -64,15 +64,15 @@ const DashBoardTable = () => {
     return (
         <div className="flex justify-center items-center h-screen px-10">
             <div className="relative overflow-y-auto max-h-[400px] bg-transparent sm:max-w-4xl tablet:block mobile:hidden">
-                <table className="sm:table w-full text-sm text-left bg-transparent text-gray-500 dark:text-gray-400 border-collapse rounded-t-lg border-gray-300" style={{ margin: "0 auto" }}>
-                    <thead className="bg-[#523B7E99] rounded-t-[20px] text-xs text-gray-700 dark:text-gray-400">
-                        <tr className="h-auto max-w-lg rounded-t-[20px] text-base text-[#FCFCFC] dark:text-gray-400">
-                            <th scope="col" className="text-[#FBFBFB] px-6 py-3">Date</th>
+                <table className="sm:table w-full tablet:rounded-lg  text-sm text-left bg-transparent text-gray-500 dark:text-gray-400 border-collapse rounded-lg border-gray-300" style={{ margin: "0 auto" }}>
+                    <thead className="bg-[#523B7E99] rounded-[20px] text-xs text-gray-700 dark:text-gray-400">
+                        <tr className="h-auto max-w-lg  rounded-lg text-base text-[#FCFCFC] dark:text-gray-400">
+                            <th scope="col" className="text-[#FBFBFB] px-6 py-3 rounded-s-lg">Date</th>
                             <th scope="col" className="text-[#FBFBFB] px-6 py-3">Type</th>
                             <th scope="col" className="text-[#FBFBFB] px-6 py-3">Category</th>
                             <th scope="col" className="text-[#FBFBFB] px-6 py-3">Comment</th>
                             <th scope="col" className="text-[#FBFBFB] px-6 py-3">Sum</th>
-                            <th scope="col" className="text-[#FBFBFB] px-6 py-3" style={{ color: '#523B7E99' }}></th>
+                            <th scope="col" className="text-[#FBFBFB] px-6 py-3 rounded-e-lg" style={{ color: '#523B7E99' }}></th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100 divide-opacity-20">
