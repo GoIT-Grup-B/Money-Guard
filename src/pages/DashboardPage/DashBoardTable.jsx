@@ -93,7 +93,7 @@ const DashBoardTable = () => {
                                 <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left">
                                     <div style={{ display: "flex", flexDirection: "row", gap: "2" }}>
                                         <button className='border-none outline-none focus:ring-0 p-2 bg-transparent mr-2' onClick={() => handleEdit(transaction)}>
-                                            <img src={penLogo} alt="pen" className='w-6 h-6border-none dark:border-gray-700 rounded p-1' />
+                                            <img src={penLogo} alt="pen" className='w-6 h-6 border-none dark:border-gray-700 rounded p-1' />
                                         </button>
                                         <button type="button" onClick={() => handleDelete(transaction.id)} className='bg-gradient-to-r from-[#ebac44] to-[#a144b5] rounded-[20px] px-3 py-2 text-white cursor-pointer transition-opacity hover:opacity-90'>Delete</button>
                                     </div>
