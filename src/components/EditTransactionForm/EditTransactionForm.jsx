@@ -21,19 +21,24 @@ const EXPENSE_CATEGORIES = [
 const EditTransactionForm = ({ transaction, onClose }) => {
     const dispatch = useDispatch();
     const [isIncome, setIsIncome] = useState(transaction.type === 'income');
-    const [amount, setAmount] = useState(transaction.amount);
-    const [date, setDate] = useState(new Date(transaction.date));
-    const [comment, setComment] = useState(transaction.comment);
-    const [category, setCategory] = useState(transaction.category);
+    const [amount, setAmount] = useState('');
+    const [date, setDate] = useState(new Date());
+    const [comment, setComment] = useState('');
+    const [category, setCategory] = useState('');
 
     useEffect(() => {
-        console.log('Original transaction date:', transaction.date);
-        const parsedDate = new Date(transaction.date);
-        console.log('Parsed date:', parsedDate);
-        if (!isNaN(parsedDate)) {
-            setDate(parsedDate);
+        if (transaction.date) {
+            console.log('Original transaction date:', transaction.date);
+            const parsedDate = new Date(transaction.date);
+            console.log('Parsed date:', parsedDate);
+            if (!isNaN(parsedDate)) {
+                setDate(parsedDate);
+            } else {
+                console.error('Invalid date format:', transaction.date);
+                setDate(new Date());
+            }
         } else {
-            console.error('Invalid date format:', transaction.date);
+            console.error('Transaction date is undefined');
             setDate(new Date());
         }
     }, [transaction.date]);
@@ -45,20 +50,17 @@ const EditTransactionForm = ({ transaction, onClose }) => {
             transactionData: {
                 type: isIncome ? 'income' : 'expense',
                 amount: parseFloat(amount),
-                date: date.toISOString().split('T')[0],
+                date: date.toISOString(),
                 comment,
-                ...((!isIncome) && { category })
+                category
             }
         });
-        dispatch(updateTransaction({
-            transactionId: transaction.id,
-            transactionData: {
-                type: isIncome ? 'income' : 'expense',
-                amount: parseFloat(amount),
-                date: date.toISOString().split('T')[0],
-                comment,
-                ...((!isIncome) && { category })
-            }
+        dispatch(updateTransaction(transaction.id, {
+            type: isIncome ? 'income' : 'expense',
+            amount: parseFloat(amount),
+            date: date.toISOString(),
+            comment,
+            category
         }));
         onClose();
     };
@@ -67,76 +69,73 @@ const EditTransactionForm = ({ transaction, onClose }) => {
         <div className="edit-transaction-form p-4 rounded-lg shadow-md">
             <form className="flex flex-col justify-center items-center max-w-[394px] gap-5 w-full" onSubmit={handleSubmit}>
                 <div className="flex items-center justify-center gap-8 mb-5">
-                    <label className="mr-4">
-                        <input
-                            type="radio"
-                            name="type"
-                            value="income"
-                            checked={isIncome}
-                            onChange={() => setIsIncome(true)}
-                            className="mr-2"
-                        />
-                        Income
-                    </label>
-                    <label>
-                        <input
-                            type="radio"
-                            name="type"
-                            value="expense"
-                            checked={!isIncome}
-                            onChange={() => setIsIncome(false)}
-                            className="mr-2"
-                        />
-                        Expense
-                    </label>
+                    Income/Expense
                 </div>
-                <div className="mb-4">
-                    <input
-                        type="number"
-                        name="amount"
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
-                        required
-                        className="w-full p-2 border border-gray-300 rounded"
-                        placeholder="Amount"
-                    />
-                </div>
-                <div className="mb-4">
-                    <DatePicker
-                        onChange={(date) => setDate(date)}
-                        dateFormat="yyyy-MM-dd"
-                        className="w-full p-2 border border-gray-300 rounded"
-                    />
-                </div>
+
                 {!isIncome && (
-                    <div className="mb-4">
-                        <select
-                            name="category"
-                            value={category}
-                            onChange={(e) => setCategory(e.target.value)}
-                            required
-                            className="w-full p-2 border border-gray-300 rounded"
-                        >
-                            <option value="">Select category</option>
-                            {EXPENSE_CATEGORIES.map((cat) => (
-                                <option key={cat} value={cat}>{cat}</option>
-                            ))}
-                        </select>
-                    </div>
+                    <select
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        className="bg-transparent border-b border-white/30 py-2.5 text-white text-base focus:outline-none w-full"
+                        required
+                    >
+                        <option value="" disabled className="bg-[#4a2b99] text-white/50">
+                            Select a category
+                        </option>
+                        {EXPENSE_CATEGORIES.map((cat) => (
+                            <option
+                                key={cat}
+                                value={cat}
+                                className="bg-[#4a2b99] text-white"
+                            >
+                                {cat}
+                            </option>
+                        ))}
+                    </select>
                 )}
-                <div className="mb-4">
-                    <input
-                        type="text"
-                        name="comment"
-                        value={comment}
-                        onChange={(e) => setComment(e.target.value)}
-                        className="w-full p-2 border border-gray-300 rounded"
-                        placeholder="Comment"
-                    />
+                <div className="flex w-full gap-8 mobile:flex-col tablet:flex-row">
+                    <div className="flex-1">
+                        <input
+                            type="number"
+                            className={`w-full bg-transparent border-b border-white/30 py-2.5 text-base placeholder:text-white/50 focus:outline-none text-center`}
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                            placeholder="0.00"
+                            required
+                        />
+                    </div>
+
+                    <div className="flex-1">
+                        <DatePicker
+                            selected={date}
+                            onChange={(date) => setDate(date)}
+                            dateFormat="dd.MM.yyyy"
+                            className="w-full bg-transparent border-b border-white/30 py-2.5 text-white text-base focus:outline-none text-center"
+                        />
+                    </div>
                 </div>
-                <div className="flex justify-end">
-                    <button type="button" onClick={onClose} className="mr-2 px-4 py-2 bg-gray-300 rounded">Cancel</button>
-                    <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded">Save</button>
+                <input
+                    type="text"
+                    className={`w-full bg-transparent border-b border-white/30 py-2.5 text-base placeholder:text-white/50 focus:outline-none`}
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    placeholder="Comment"
+                    required
+                />
+                <div className="flex flex-col gap-2.5 mt-5 w-[300px]">
+                    <button
+                        type="submit"
+                        className="bg-gradient-to-r from-[#ebac44] to-[#a144b5] rounded-[20px] py-3 text-white cursor-pointer transition-opacity hover:opacity-90"
+                    >
+                        ADD
+                    </button>
+                    <button
+                        type="button"
+                        className="bg-white rounded-[20px] py-3 text-[#4a2b99] cursor-pointer transition-opacity hover:opacity-90"
+                        onClick={onClose}
+                    >
+                        CANCEL
+                    </button>
                 </div>
             </form>
         </div>
