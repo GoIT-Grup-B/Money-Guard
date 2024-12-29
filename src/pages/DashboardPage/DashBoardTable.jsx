@@ -63,19 +63,19 @@ const DashBoardTable = () => {
                 <table className="sm:table w-full tablet:rounded-lg  text-sm text-left bg-transparent text-gray-500 dark:text-gray-400 border-collapse rounded-lg border-gray-300" style={{ margin: "0 auto" }}>
                     <thead className="bg-[#523B7E99] rounded-[20px] text-xs text-gray-700 dark:text-gray-400">
                         <tr className="h-auto max-w-lg  rounded-lg text-base text-[#FCFCFC] dark:text-gray-400">
-                            <th scope="col" className="text-[#FBFBFB] px-6 py-3 rounded-s-lg">Date</th>
-                            <th scope="col" className="text-[#FBFBFB] px-6 py-3">Type</th>
-                            <th scope="col" className="text-[#FBFBFB] px-6 py-3">Category</th>
-                            <th scope="col" className="text-[#FBFBFB] px-6 py-3">Comment</th>
-                            <th scope="col" className="text-[#FBFBFB] px-6 py-3">Sum</th>
-                            <th scope="col" className="text-[#FBFBFB] px-6 py-3 rounded-e-lg" style={{ color: '#523B7E99' }}></th>
+                            <th scope="col" className="text-[#FBFBFB] px-6 py-3 rounded-s-lg w-1/6">Date</th>
+                            <th scope="col" className="text-[#FBFBFB] px-6 py-3 w-1/6">Type</th>
+                            <th scope="col" className="text-[#FBFBFB] px-6 py-3 w-1/6">Category</th>
+                            <th scope="col" className="text-[#FBFBFB] px-6 py-3 w-1/6">Comment</th>
+                            <th scope="col" className="text-[#FBFBFB] px-6 py-3 w-1/6">Sum</th>
+                            <th scope="col" className="text-[#FBFBFB] px-6 py-3 rounded-e-lg w-1/6" style={{ color: '#523B7E99' }}></th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100 divide-opacity-20">
                         {transactions.map((transaction) => (
                             <tr
                                 key={transaction.id}
-                                className="h-12 dark:bg-transparent bg-transparent border-b dark:bg-gray-800 dark:border-gray-700 border-b-0 divide-y divide-gray-100 divide-opacity-20"
+                                className="h-12 dark:bg-transparent bg-transparent border-b dark:bg-gray-800 dark:border-gray-700 border-b-0 divide-opacity-20"
                             >
                                 <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left">{formatDate(transaction.transactionDate)}</td>
                                 <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left"> {transaction.type === "INCOME" ? `+` : `-`}</td>
@@ -87,10 +87,17 @@ const DashBoardTable = () => {
                                 > {Math.abs(transaction.amount)}
                                 </td>
                                 <td className="text-[#FBFBFB] bg-transparent px-6 py-3 font-poppins text-sm font-normal leading-6 text-left">
-                                    <div style={{ display: "flex", flexDirection: "row", gap: "2" }}>
-                                        <button className='border-none outline-none focus:ring-0 p-2 bg-transparent mr-2' onClick={() => handleEdit(transaction)}>
-                                            <img src={penLogo} alt="pen" className='w-6 h-6 border-none dark:border-gray-700 rounded p-1' />
-                                        </button>
+                                <div className="flex flex-row gap-2 items-center">
+                                    <button 
+                                    className="border-none outline-none focus:ring-0 p-1 bg-transparent min-w-[40px] min-h-[40px] flex items-center justify-center"
+                                    onClick={() => handleEdit(transaction)}
+                                    >
+                                    <img 
+                                        src={penLogo} 
+                                        alt="pen" 
+                                        className="w-6 h-6 rounded p-1" 
+                                    />
+                                    </button>
                                         <button type="button" onClick={() => handleDelete(transaction.id)} className='bg-gradient-to-r from-[#ebac44] to-[#a144b5] rounded-[20px] px-3 py-2 text-white cursor-pointer transition-opacity hover:opacity-90'>Delete</button>
                                     </div>
                                 </td>
@@ -101,7 +108,7 @@ const DashBoardTable = () => {
                 
             </div>
 
-            <div className="mobile:block tablet:hidden">
+            <div className="mobile:block tablet:hidden desktop:hidden">
             <div className="space-y-4">
                 {transactions.map((transaction) => (
                     <div
