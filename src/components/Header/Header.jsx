@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { signOutUser } from '../../redux/auth/authOps';
 
 import { PiLineVertical } from 'react-icons/pi';
@@ -10,18 +11,31 @@ const Header = () => {
   const selectUser = (state) => state.user.user;
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector(selectUser);
-  const token = useSelector((store) => store.user.token);
+  const token = useSelector((state) => state.user.token);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleLogoutClick = () => {
     setIsModalOpen(true);
   };
 
-  const confirmLogout = () => {
-    dispatch(signOutUser(token));
-    setIsModalOpen(false);
-  };
+  const confirmLogout = async () => {
+    try {
+      setError(null);
+      const result = await dispatch(signOutUser(token)).unwrap();
+      if (result.success) {
+        navigate('/login');
+      }else{
+        setError('Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      setError(error.message || 'Something went wrong. Please try again.');
+    } finally {
+      setIsModalOpen(false);
+    }
+      }
 
   const cancelLogout = () => {
     setIsModalOpen(false);
@@ -75,6 +89,20 @@ const Header = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+      {error && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+          <div className=" bg-[#3e2f85]/80 rounded-lg p-4 flex flex-col items-center justify-center">
+          <p className="text-red-500">Error!</p>
+            <p className="text-white">{error}</p>
+            <button
+              onClick={() => setError(null)}
+              className="mt-4 bg-gradient-to-r from-[#ecac43] to-[#a144b5] text-[#ffffff] py-2 px-4 flex justify-centeritems-center rounded"
+            >
+              OK
+            </button>
           </div>
         </div>
       )}
