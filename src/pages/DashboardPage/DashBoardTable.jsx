@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTransaction, deleteTransaction ,getCategories } from '../../redux/transaction/transactionOps';
 import penLogo from "../../assets/svg/pen.svg";
 import ModalEditTransaction from '../../components/ModalEditTransaction/ModalEditTransaction';
-
+//gizem
 const DashBoardTable = () => {
     const { transactions, loading, error } = useSelector((state) => state.transaction);
     const token = useSelector((state) => state.user.token);
