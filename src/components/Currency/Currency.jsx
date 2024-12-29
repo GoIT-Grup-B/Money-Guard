@@ -1,8 +1,37 @@
 import React, { useEffect, useRef } from 'react';
 import { Chart } from 'chart.js/auto';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
+import { updateCurrency } from '../../redux/balanceSlice';
 
 const Currency = ({ data }) => {
   const chartRef = useRef(null);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchCurrencyData = async () => {
+      try {
+        const response = await axios.get(
+          'https://api.monobank.ua/bank/currency',
+        );
+        const filteredData = response.data.filter(
+          (item) =>
+            (item.currencyCodeA === 840 && item.currencyCodeB === 980) ||
+            (item.currencyCodeA === 978 && item.currencyCodeB === 980),
+        );
+        const formattedData = filteredData.map((item) => ({
+          name: item.currencyCodeA === 840 ? 'USD' : 'EUR',
+          purchase: item.rateBuy,
+          sale: item.rateSell,
+        }));
+        dispatch(updateCurrency(formattedData));
+      } catch (error) {
+        console.error('Error fetching currency data:', error);
+      }
+    };
+
+    fetchCurrencyData();
+  }, [dispatch]);
 
   useEffect(() => {
     if (!data || data.length === 0) return;
@@ -85,10 +114,17 @@ const Currency = ({ data }) => {
   }, [data]);
 
   return (
-    <div className="bg-purple-700 rounded-lg p-6 shadow-md">
+    <div
+      className="rounded-lg p-6 shadow-md"
+      style={{
+        background:
+          'linear-gradient(180deg, rgba(109, 84, 235, 0.6) 0%, rgba(101, 35, 146, 0.6) 100%)', // Gradyan arka plan
+        boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.2)', // Hafif gölge
+      }}
+    >
       <table className="w-full text-left text-white mb-6">
         <thead>
-          <tr className="border-b border-purple-600">
+          <tr className="border-b border-[rgba(255,255,255,0.2)]">
             <th className="py-2">Currency</th>
             <th className="py-2">Purchase</th>
             <th className="py-2">Sale</th>
@@ -98,7 +134,7 @@ const Currency = ({ data }) => {
           {data.map((item, index) => (
             <tr
               key={index}
-              className="border-b border-purple-600 hover:bg-purple-800"
+              className="border-b border-[rgba(255,255,255,0.1)] hover:bg-[rgba(109,84,235,0.4)]"
             >
               <td className="py-2 px-4">{item.name}</td>
               <td className="py-2 px-4">{item.purchase}</td>
