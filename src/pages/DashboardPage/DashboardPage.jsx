@@ -1,5 +1,5 @@
-import Header from "../../components/Header/Header"
-import DashBoardTable from "../../pages/DashboardPage/DashBoardTable"
+import Header from '../../components/Header/Header';
+import DashBoardTable from '../../pages/DashboardPage/DashBoardTable';
 
 const DashboardPage = () => {
   return (
@@ -7,7 +7,7 @@ const DashboardPage = () => {
       <Header />
       <DashBoardTable />
     </div>
-  )
-}
+  );
+};
 
-export default DashboardPage
+export default DashboardPage;
