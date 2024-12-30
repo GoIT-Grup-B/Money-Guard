@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
 import './DashBoardTable.module.css';
 import { useDispatch, useSelector } from 'react-redux';
