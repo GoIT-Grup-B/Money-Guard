@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Chart } from 'chart.js/auto';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import { updateCurrency } from '../../redux/balanceSlice';
+import { updateCurrency } from '../../redux/balanceSlice'; // Redux slice'tan action import edilmeli.
 
 const Currency = ({ data }) => {
   const chartRef = useRef(null);
@@ -16,8 +16,8 @@ const Currency = ({ data }) => {
         );
         const filteredData = response.data.filter(
           (item) =>
-            (item.currencyCodeA === 840 && item.currencyCodeB === 980) ||
-            (item.currencyCodeA === 978 && item.currencyCodeB === 980),
+            (item.currencyCodeA === 840 && item.currencyCodeB === 980) || // USD
+            (item.currencyCodeA === 978 && item.currencyCodeB === 980), // EUR
         );
         const formattedData = filteredData.map((item) => ({
           name: item.currencyCodeA === 840 ? 'USD' : 'EUR',

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { FaHouse } from 'react-icons/fa6';
 import { BiStats } from 'react-icons/bi';
