@@ -59,9 +59,9 @@ const DashBoardTable = () => {
     }
 
     return (
-<div className="flex h-screen">
+    <div className="flex h-screen">
         {/* Tablet ve Desktop için tablo düzeni */}
-        <div className="hidden tablet:block mobile:hidden desktop:block relative bg-transparent tablet:w-4/5" >
+        <div className="hidden tablet:block mobile:hidden  relative bg-transparent tablet:w-4/5" >
             <table className="sm:table w-full tablet:rounded-lg text-sm text-left bg-transparent text-gray-500 dark:text-gray-400 border-collapse rounded-lg border-gray-300" style={{ margin: "0 auto" }}>
                 <thead className="bg-[#523B7E99] rounded-[20px] text-xs text-gray-700 dark:text-gray-400">
                     <tr className="h-auto max-w-lg rounded-lg text-base text-[#FCFCFC] dark:text-gray-400">
@@ -116,64 +116,85 @@ const DashBoardTable = () => {
         </div>
 
         {/* Mobil için düzen */}
-        <div className="block tablet:hidden desktop:hidden w-screen">
-            <div className="space-y-4">
-                {transactions.map((transaction) => (
-                    <div
-                        key={transaction.id}
-                        className="bg-transparent border border-gray-700 rounded-lg p-4"
+{/* Mobil için düzen */}
+<div className="block tablet:hidden desktop:hidden w-screen px-4">
+    <div className="space-y-4">
+        {transactions.map((transaction) => (
+            <div
+                key={transaction.id}
+                className="bg-transparent border border-gray-700 rounded-lg p-4"
+            >
+                {/* Tarih */}
+                <div className="flex justify-between items-center mb-2">
+                    <span className="text-[#FBFBFB]">Date:</span>
+                    <span className="text-[#FBFBFB]">
+                        {formatDate(transaction.transactionDate)}
+                    </span>
+                </div>
+                
+                {/* Tür */}
+                <div className="flex justify-between items-center mb-2">
+                    <span className="text-[#FBFBFB]">Type:</span>
+                    <span className="text-[#FBFBFB]">
+                        {transaction.type === "INCOME" ? "+" : "-"}
+                    </span>
+                </div>
+                
+                {/* Kategori */}
+                <div className="flex justify-between items-center mb-2">
+                    <span className="text-[#FBFBFB]">Category:</span>
+                    <span className="text-[#FBFBFB]">
+                        {categories[transaction.categoryId] || "Unknown"}
+                    </span>
+                </div>
+                
+                {/* Yorum */}
+                <div className="flex justify-between items-center mb-2">
+                    <span className="text-[#FBFBFB]">Comment:</span>
+                    <span className="text-[#FBFBFB]">
+                        {transaction.comment || "-"}
+                    </span>
+                </div>
+                
+                {/* Tutar */}
+                <div className="flex justify-between items-center mb-4">
+                    <span className="text-[#FBFBFB]">Sum:</span>
+                    <span
+                        className={`${
+                            transaction.type === "INCOME"
+                                ? "text-[#FFB627]"
+                                : "text-[#FF868D]"
+                        }`}
                     >
-                        <div className="flex justify-between items-center mb-2">
-                            <span className="text-[#FBFBFB]">Date:</span>
-                            <span className="text-[#FBFBFB]">
-                                {formatDate(transaction.transactionDate)}
-                            </span>
-                        </div>
-                        <div className="flex justify-between items-center mb-2">
-                            <span className="text-[#FBFBFB]">Type:</span>
-                            <span className="text-[#FBFBFB]">
-                                {transaction.type === "INCOME" ? "+" : "-"}
-                            </span>
-                        </div>
-                        <div className="flex justify-between items-center mb-2">
-                            <span className="text-[#FBFBFB]">Category:</span>
-                            <span className="text-[#FBFBFB]">
-                                {categories[transaction.categoryId] || "Unknown"}
-                            </span>
-                        </div>
-                        <div className="flex justify-between items-center mb-2">
-                            <span className="text-[#FBFBFB]">Comment:</span>
-                            <span className="text-[#FBFBFB]">
-                                {transaction.comment}
-                            </span>
-                        </div>
-                        <div className="flex justify-between items-center mb-4">
-                            <span className="text-[#FBFBFB]">Sum:</span>
-                            <span
-                                className={`${transaction.type === "INCOME" ? "text-[#FFB627]" : "text-[#FF868D]"}`}
-                            >
-                                {Math.abs(transaction.amount)}
-                            </span>
-                        </div>
-                        <div className="flex justify-end gap-2">
-                            <button
-                                className="border-none outline-none focus:ring-0 p-2 bg-transparent"
-                                onClick={() => handleEdit(transaction)}
-                            >
-                                <img src={penLogo} alt="pen" className="w-6 h-6 rounded p-1" />
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => handleDelete(transaction.id)}
-                                className="bg-gradient-to-r from-[#ebac44] to-[#a144b5] rounded-[20px] px-3 py-2 text-white transition-opacity hover:opacity-90"
-                            >
-                                Delete
-                            </button>
-                        </div>
-                    </div>
-                ))}
+                        {Math.abs(transaction.amount).toFixed(2)}
+                    </span>
+                </div>
+                
+                {/* İşlem Butonları */}
+                <div className="flex justify-end gap-2">
+                    <button
+                        className="border-none outline-none focus:ring-0 p-2 bg-transparent"
+                        onClick={() => handleEdit(transaction)}
+                    >
+                        <img
+                            src={penLogo}
+                            alt="Edit"
+                            className="w-6 h-6 rounded p-1"
+                        />
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => handleDelete(transaction.id)}
+                        className="bg-gradient-to-r from-[#ebac44] to-[#a144b5] rounded-[20px] px-3 py-2 text-white transition-opacity hover:opacity-90"
+                    >
+                        Delete
+                    </button>
+                </div>
             </div>
-        </div>
+        ))}
+    </div>
+</div>
+
 
         {selectedTransaction && (
             <ModalEditTransaction
