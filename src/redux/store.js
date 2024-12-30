@@ -16,7 +16,7 @@ const rootReducer = combineReducers({
   user: persistReducer(authPersistConfig, authReducer),
   balance: balanceReducer,
   transactions: transactionsReducer,
-  transaction: transactionReducer, // Add the transaction reducer here
+  transaction: transactionReducer,
 });
 
 export const store = configureStore({

@@ -1,6 +1,5 @@
-import  { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './DashBoardTable.module.css';
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTransaction, deleteTransaction ,getCategories } from '../../redux/transaction/transactionOps';
 import penLogo from "../../assets/svg/pen.svg";
@@ -47,10 +46,10 @@ const DashBoardTable = () => {
     };
 
     const formatDate = (dateString) => {
-        const date = new Date(dateString); // Tarihi bir Date nesnesine çevir
-        const day = String(date.getDate()).padStart(2, '0'); // Gün
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Ay
-        const year = String(date.getFullYear()).slice(2); // Yılın son iki hanesi
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = String(date.getFullYear()).slice(2);
         return `${day}.${month}.${year}`;
     };
 
@@ -59,8 +58,8 @@ const DashBoardTable = () => {
     }
 
     return (
-        <div className="flex justify-center items-center h-screen px-10 w-11/12">
-            <div className="relative max-h-[400px] bg-transparent tablet:w-4/5 tablet:block mobile:hidden">
+        <div className="flex justify-center items-center h-screen">
+            <div className="relative bg-transparent tablet:w-4/5 tablet:block mobile:hidden">
                 <table className="sm:table w-full tablet:rounded-lg  text-sm text-left bg-transparent text-gray-500 dark:text-gray-400 border-collapse rounded-lg border-gray-300" style={{ margin: "0 auto" }}>
                     <thead className="bg-[#523B7E99] rounded-[20px] text-xs text-gray-700 dark:text-gray-400">
                         <tr className="h-auto max-w-lg  rounded-lg text-base text-[#FCFCFC] dark:text-gray-400">

@@ -5,9 +5,11 @@ const ModalEditTransaction = ({ onClose, isOpen, onRequestClose, transaction }) 
     if (!isOpen) return null;
 
     return (
-        <div
-            className="fixed inset-0 bg-black/30 backdrop-blur-sm z-10"
-            onClick={onClose}>
+        <>
+            <div
+                className="fixed inset-0 bg-black/30 backdrop-blur-sm z-10"
+                onClick={onClose} /
+            >
 
             <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
                 bg-gradient-to-b from-[#4a2b99] to-[#2a1357] 
@@ -25,7 +27,7 @@ const ModalEditTransaction = ({ onClose, isOpen, onRequestClose, transaction }) 
                 </h2>
                 <EditTransactionForm transaction={transaction} onClose={onRequestClose} />
             </div>
-        </div>
+        </>
     );
 };
 

@@ -1,4 +1,5 @@
-import { useState, useEffect, useSelector } from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Doughnut } from 'react-chartjs-2';
 import Select from 'react-select';
 import Axios from 'axios';
@@ -54,6 +55,7 @@ const Statistics = () => {
   const [selectedMonth, setSelectedMonth] = useState('03');
   const [selectedYear, setSelectedYear] = useState(2023);
   const [expenses, setExpenses] = useState([]);
+  const [incomes, setIncomes] = useState('');
   const [loading, setLoading] = useState(false);
 
   const data = {
@@ -71,7 +73,7 @@ const Statistics = () => {
 
   const token = useSelector((store) => store.user.token);
 
-  const fetchExpenses = async () => {
+  const fetchExpensesAndDeposits = async () => {
     setLoading(true);
     try {
       const response = await Axios.get(
@@ -88,8 +90,12 @@ const Statistics = () => {
         const matchedCategory = apiData.find((item) => item.name === category);
         return matchedCategory ? matchedCategory.amount : 0;
       });
+      const depositsData = apiData
+        .filter((tx) => tx.amount > 0)
+        .reduce((total, tx) => total + tx.amount / 100, 0);
 
       setExpenses(expensesData);
+      setIncomes(depositsData);
     } catch (error) {
       console.error("API'den veri çekilirken hata oluştu:", error);
       setExpenses(Array(chartCategories.length).fill(0));
@@ -99,26 +105,29 @@ const Statistics = () => {
   };
 
   useEffect(() => {
-    fetchExpenses();
+    fetchExpensesAndDeposits();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedMonth, selectedYear]);
 
   return (
-    <div>
-      <h2>Statistics</h2>
-      <div>
-        <div>
+    <div className="min-h-screen bg-gradient-to-b from-gray-800 to-gray-900 text-white flex flex-col items-center p-4">
+      <h2 className="text-2xl font-bold mb-4">Statistics</h2>
+      <div className="flex flex-wrap justify-center gap-6 w-full">
+        <div className="w-full sm:w-1/2 lg:w-1/3 bg-gray-700 rounded-lg shadow-md p-6">
           {loading ? (
-            <div>Loading...</div>
+            <div className="text-center text-lg">Loading...</div>
           ) : (
             <>
               <Doughnut data={data} options={{ cutout: '70%' }} />
-              <div>
-                <strong>€ {totalExpenses.toLocaleString()}</strong>
+              <div className="text-center mt-4">
+                <strong className="text-2xl">
+                  € {totalExpenses.toLocaleString()}
+                </strong>
               </div>
             </>
           )}
         </div>
-        <div>
+        <div className="w-full sm:w-1/2 lg:w-1/3 flex flex-col gap-4">
           <Select
             options={months}
             defaultValue={{ value: '03', label: 'March' }}
@@ -131,23 +140,29 @@ const Statistics = () => {
           />
         </div>
       </div>
-      <div>
+      <div className="w-full mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {chartCategories.map((category, index) => (
-          <div key={index}>
-            <div>
-              <div style={{ backgroundColor: categoryColors[index] }}></div>
+          <div
+            key={index}
+            className="flex justify-between bg-gray-700 p-4 rounded-lg shadow"
+          >
+            <div className="flex items-center gap-2">
+              <div
+                className="w-4 h-4 rounded-full"
+                style={{ backgroundColor: categoryColors[index] }}
+              ></div>
               <span>{category}</span>
             </div>
             <div>€ {expenses[index]?.toFixed(2)}</div>
           </div>
         ))}
       </div>
-      <div>
+      <div className="w-full mt-8 flex justify-between items-center bg-gray-700 p-4 rounded-lg shadow">
         <div>
           <strong>Expenses:</strong> € {totalExpenses.toFixed(2)}
         </div>
         <div>
-          <strong>Income:</strong> € {(totalExpenses * 1.2).toFixed(2)}
+          <strong>Income:</strong> € {(Number(incomes) || 0).toFixed(2)}
         </div>
       </div>
     </div>

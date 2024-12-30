@@ -3,9 +3,18 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Loader from '../components/Loader/Loader';
 
-const RegistrationPage = lazy(() => import('../pages/RegistrationPage/RegistrationPage'));
+const RegistrationPage = lazy(
+  () => import('../pages/RegistrationPage/RegistrationPage'),
+);
 const LoginPage = lazy(() => import('../pages/LoginPage/LoginPage'));
-const DashboardPage = lazy(() => import('../pages/DashboardPage/DashboardPage'));
+const DashboardPage = lazy(
+  () => import('../pages/DashboardPage/DashboardPage'),
+);
+const Statistic = lazy(() => import('../components/Statistick/Statistick'));
+const DashBoardTable = lazy(
+  () => import('../pages/DashboardPage/DashBoardTable'),
+);
+const Currency = lazy(() => import('../components/Currency/Currency'));
 
 const PrivateRoute = ({ children }) => {
   const token = useSelector((state) => state.user.token);
@@ -44,7 +53,11 @@ const AppRoutes = () => {
               <DashboardPage />
             </PrivateRoute>
           }
-        />
+        >
+          <Route path="home" element={<DashBoardTable />} />
+          <Route path="statistic" element={<Statistic />} />
+          <Route path="currency" element={<Currency />} />
+        </Route>
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </Suspense>
