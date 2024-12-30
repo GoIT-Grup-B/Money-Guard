@@ -116,7 +116,7 @@ const DashBoardTable = () => {
         </div>
 
         {/* Mobil için düzen */}
-        <div className="block tablet:hidden desktop:hidden">
+        <div className="block tablet:hidden desktop:hidden w-screen">
             <div className="space-y-4">
                 {transactions.map((transaction) => (
                     <div
