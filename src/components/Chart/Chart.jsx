@@ -1,4 +1,3 @@
-import React from 'react';
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 
@@ -6,7 +5,7 @@ const Chart = ({ chartData }) => {
   const hasData = chartData && chartData.length > 0;
 
   const labels = hasData ? chartData.map((data) => data.label) : ['No Data'];
-  const dataValues = hasData ? chartData.map((data) => data.value) : [20];
+  const dataValues = hasData ? chartData.map((data) => data.value) : [50];
 
   const data = {
     labels,

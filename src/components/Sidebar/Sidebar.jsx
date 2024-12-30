@@ -1,13 +1,29 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { FaHouse } from 'react-icons/fa6';
 import { BiStats } from 'react-icons/bi';
+import { Link } from 'react-router-dom';
 import Currency from '../../components/Currency/Currency';
-import Chart from '../../components/Chart/Chart';
+import styles from './Sidebar.module.css';
 
 const Sidebar = () => {
-  const balance = useSelector((state) => state.balance.balance);
+  const transactions = useSelector((state) => state.transaction.transactions);
   const currency = useSelector((state) => state.balance.currency);
+  const [balance, setBalance] = useState(0);
+
+  useEffect(() => {
+    if (transactions) {
+      setBalance(calculateBalance());
+    }
+  }, [transactions]);
+
+  const calculateBalance = () => {
+    return (
+      transactions?.reduce((total, transaction) => {
+        return total + transaction.amount;
+      }, 0) || 0
+    );
+  };
 
   return (
     <div className="bg-gradient-to-b from-purple-800 to-purple-900 text-white font-sans">
@@ -22,29 +38,26 @@ const Sidebar = () => {
         </div>
       </header>
 
-      <main className="p-4 md:p-8">
+      <main className="p-6">
         <section className="mb-8">
-          <div className="text-center bg-purple-700 rounded-lg p-6 shadow-md">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-purple-300">
+          <div
+            className="flex flex-col items-center justify-center w-full rounded-lg p-6 shadow-md"
+            style={{
+              backgroundColor: 'rgba(82, 59, 126, 0.6)',
+              boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.2)', // Hafif gölge
+            }}
+          >
+            <h2 className="uppercase tracking-wide text-[12px] mb-2 text-[rgba(255,255,255,0.4)] font-poppins">
               Your Balance
             </h2>
-            <p className="text-4xl font-extrabold mt-2">
-              ₹ {balance.toLocaleString()}
+            <p className="text-[30px] font-extrabold text-white font-poppins">
+              ₺ {balance.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}
             </p>
           </div>
         </section>
 
         <section className="mb-8">
           <Currency data={currency} />
-        </section>
-
-        <section className="mb-8">
-          <Chart
-            chartData={currency.map((item) => ({
-              label: item.name,
-              value: item.purchase,
-            }))}
-          />
         </section>
       </main>
     </div>
