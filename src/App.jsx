@@ -6,26 +6,26 @@ import AppRoutes from './routes/AppRoutes';
 import Header from './components/Header/Header';
 
 const App = () => {
-  const dispatch = useDispatch();
-  const location = useLocation();
+    const dispatch = useDispatch();
+    const location = useLocation();
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      dispatch(fetchCurrentUser(token));
-    }
-  }, [dispatch]);
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            dispatch(fetchCurrentUser(token));
+        }
+    }, [dispatch]);
 
-  const shouldShowHeader = location.pathname === '/dashboard';
+    const shouldShowHeader = location.pathname !== '/register' && location.pathname !== '/login';
 
-  return (
-    <>
-      {shouldShowHeader && <Header />}
-      <main>
-        <AppRoutes />
-      </main>
-    </>
-  );
+    return (
+        <>
+            {shouldShowHeader && <Header />}
+            <main>
+                <AppRoutes />
+            </main>
+        </>
+    );
 };
 
 export default App;
