@@ -1,4 +1,5 @@
-import { useState, useEffect, useSelector } from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Doughnut } from 'react-chartjs-2';
 import Select from 'react-select';
 import Axios from 'axios';
@@ -105,6 +106,7 @@ const Statistics = () => {
 
   useEffect(() => {
     fetchExpensesAndDeposits();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedMonth, selectedYear]);
 
   return (
@@ -160,7 +162,7 @@ const Statistics = () => {
           <strong>Expenses:</strong> € {totalExpenses.toFixed(2)}
         </div>
         <div>
-          <strong>Income:</strong> € {incomes.toFixed(2)}
+          <strong>Income:</strong> € {(Number(incomes) || 0).toFixed(2)}
         </div>
       </div>
     </div>

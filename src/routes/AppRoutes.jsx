@@ -11,6 +11,10 @@ const DashboardPage = lazy(
   () => import('../pages/DashboardPage/DashboardPage'),
 );
 const Statistic = lazy(() => import('../components/Statistick/Statistick'));
+const DashBoardTable = lazy(
+  () => import('../pages/DashboardPage/DashBoardTable'),
+);
+const Currency = lazy(() => import('../components/Currency/Currency'));
 
 const PrivateRoute = ({ children }) => {
   const token = useSelector((state) => state.user.token);
@@ -46,13 +50,13 @@ const AppRoutes = () => {
           path="/dashboard"
           element={
             <PrivateRoute>
-              <>
-                <DashboardPage />
-              </>
+              <DashboardPage />
             </PrivateRoute>
           }
         >
+          <Route path="home" element={<DashBoardTable />} />
           <Route path="statistic" element={<Statistic />} />
+          <Route path="currency" element={<Currency />} />
         </Route>
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
