@@ -59,7 +59,7 @@ const DashBoardTable = () => {
     }
 
     return (
-<div className="flex justify-center items-center h-screen">
+<div className="flex h-screen">
         {/* Tablet ve Desktop için tablo düzeni */}
         <div className="hidden tablet:block mobile:hidden desktop:block relative bg-transparent tablet:w-4/5" >
             <table className="sm:table w-full tablet:rounded-lg text-sm text-left bg-transparent text-gray-500 dark:text-gray-400 border-collapse rounded-lg border-gray-300" style={{ margin: "0 auto" }}>
