@@ -21,35 +21,21 @@ const EditTransactionForm = ({ transaction, onClose }) => {
     const dispatch = useDispatch();
     const [isIncome, setIsIncome] = useState(transaction.type === 'income');
     const [amount, setAmount] = useState(transaction.amount);
-    const [date, setDate] = useState(new Date(transaction.date));
+    const [date, setDate] = useState(new Date(transaction.transactionDate));
     const [comment, setComment] = useState(transaction.comment);
     const [category, setCategory] = useState(transaction.category || '');
 
     // Add effect to update isIncome when transaction changes
     useEffect(() => {
         console.log('Transaction type:', transaction.type);
-        setIsIncome(transaction.type === 'income');
+        setIsIncome(transaction.type === 'INCOME');
     }, [transaction]);
 
-    useEffect(() => {
-        if (transaction.date) {
-            const parsedDate = new Date(transaction.date);
-            if (!isNaN(parsedDate)) {
-                setDate(parsedDate);
-            } else {
-                console.error('Invalid date format:', transaction.date);
-                setDate(new Date());
-            }
-        } else {
-            console.error('Transaction date is undefined');
-            setDate(new Date());
-        }
-    }, [transaction.date]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(updateTransaction(transaction.id, {
-            type: isIncome ? 'income' : 'expense',
+            type: isIncome ? 'INCOME' : 'EXPENSE',
             amount: parseFloat(amount),
             date: date.toISOString(),
             comment,
@@ -64,8 +50,10 @@ const EditTransactionForm = ({ transaction, onClose }) => {
         <div className="edit-transaction-form p-4 rounded-lg shadow-md">
             <form className="flex flex-col justify-center items-center max-w-[394px] gap-5 w-full" onSubmit={handleSubmit}>
                 <div className="flex items-center justify-center gap-8 mb-5">
-                    <span className={`text-lg ${isIncome ? 'text-[#ebac44]' : 'text-[#a144b5]'}`}>
-                        Income/Expense
+                    <span>
+                        <span className={isIncome ? 'text-[#ebac44] text-lg font-bold' : 'text-white/50'}>Income</span>
+                        /
+                        <span className={!isIncome ? 'text-[#a144b5] text-lg font-bold' : 'text-white/50'}>Expense</span>
                     </span>
                 </div>
 
@@ -94,7 +82,7 @@ const EditTransactionForm = ({ transaction, onClose }) => {
                     <div className="flex-1">
                         <input
                             type="number"
-                            className={`w-full bg-transparent border-b border-white/30 py-2.5 text-base placeholder:text-white/50 focus:outline-none text-center ${textColor}`}
+                            className={`w-full bg-transparent border-b border-white/30 py-2.5 text-base placeholder:text-white/50 focus:outline-none text-center `}
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
                             placeholder="0.00"
@@ -103,16 +91,16 @@ const EditTransactionForm = ({ transaction, onClose }) => {
                     </div>
                     <div className="flex-1">
                         <DatePicker
-                            // selected={date}
+                            selected={date}
                             onChange={(date) => setDate(date)}
                             dateFormat="dd.MM.yyyy"
-                            className={`w-full bg-transparent border-b border-white/30 py-2.5 text-white text-base focus:outline-none text-center ${textColor}`}
+                            className={`w-full bg-transparent border-b border-white/30 py-2.5 text-white text-base focus:outline-none text-center`}
                         />
                     </div>
                 </div>
                 <input
                     type="text"
-                    className={`w-full bg-transparent border-b border-white/30 py-2.5 text-base placeholder:text-white/50 focus:outline-none ${textColor}`}
+                    className={`w-full bg-transparent border-b border-white/30 py-2.5 text-base placeholder:text-white/50 focus:outline-none `}
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     placeholder="Comment"
