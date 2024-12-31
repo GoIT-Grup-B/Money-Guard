@@ -102,17 +102,18 @@ function RegistrationForm() {
                 className="bg-transparent outline-none w-full"
               />
             </div>
+            {errors.confirmPassword && (
+              <p className="text-xs text-red-400">
+                {errors.confirmPassword.message}
+              </p>
+            )}
             {password && (
               <PasswordStrengthBar
                 password={password}
                 barColors={['#ddd', '#FFC727', '#FFC727', '#FFC727', '#FFC727']}
               />
             )}
-            {errors.confirmPassword && (
-              <p className="text-xs text-red-400">
-                {errors.confirmPassword.message}
-              </p>
-            )}
+
             <FormFooter type="register" />
           </form>
         )}
