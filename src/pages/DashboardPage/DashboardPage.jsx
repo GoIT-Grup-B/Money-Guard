@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom';
 
 const DashboardPage = () => {
   return (
-    <div className="tablet:flex tablet:flex-column desktop:flex-row mobile:flex-col mobile:gap-[5px] mobile:overflow-y-auto">
+    <div className="flex tablet:flex-column desktop:flex-row mobile:flex-col mobile:gap-[5px] mobile:overflow-y-auto">
       <aside>
         <Sidebar />
       </aside>

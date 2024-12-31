@@ -27,8 +27,8 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="flex tablet:gap-4 bg-gradient-to-b from-purple-800 to-purple-900 text-white font-sans h-full">
-      <div className="flex tablet:flex-col tablet:w-1/2">
+    <div className="flex flex-col tablet:flex-row desktop:flex-col tablet:gap-4 bg-gradient-to-b from-purple-800 to-purple-900 text-white font-sans h-full">
+      <div className="flex flex-col ">
         <header className="flex flex-row mobile:justify-center tablet:flex-col gap-4 p-6 border-b border-purple-600">
           <NavLink
             to="/dashboard/home"
@@ -82,7 +82,7 @@ const Sidebar = () => {
         </section>
       </div>
 
-      <section className="tablet:w-1/2 tablet:h-[214px]">
+      <section className="">
         <Currency data={currency} />
       </section>
     </div>
