@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Loader from '../components/Loader/Loader';
+import useMedia from '../hooks/useMedia'
 
 const RegistrationPage = lazy(
     () => import('../pages/RegistrationPage/RegistrationPage'),
@@ -27,6 +28,8 @@ const PublicRoute = ({ children }) => {
 };
 
 const AppRoutes = () => {
+    const { isMobile } = useMedia();
+
     return (
         <Suspense fallback={<Loader />}>
             <Routes>
@@ -56,6 +59,14 @@ const AppRoutes = () => {
                 >
                     <Route path="home" element={<DashBoardTable />} />
                     <Route path="statistic" element={<Statistic />} />
+                    <Route 
+                        path="currency" 
+                        element={isMobile ? <Currency /> : <Navigate to="/dashboard/home" />} 
+                    />
+                    <Route 
+                        index 
+                        element={<Navigate to="/dashboard/home" replace />} 
+                    />
                 </Route>
                 <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>
