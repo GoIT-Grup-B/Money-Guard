@@ -6,13 +6,13 @@ import { Outlet } from 'react-router-dom';
 const DashboardPage = () => {
   return (
     <div className="flex tablet:flex tablet:flex-column desktop:flex-row mobile:flex-col mobile:gap-[5px] mobile:overflow-y-auto">
-      <aside className="flex-[2]">
+      <aside className="flex-[1]">
         <Sidebar  />
       </aside>
 
       <div className="flex flex-[1] flex-col p-6">
         <DashBoardTable />
-        <div className="flex-1">
+        <div className="flex-[1]">
           <Outlet />
         </div>
 
