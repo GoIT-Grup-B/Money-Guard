@@ -1,67 +1,87 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Chart } from 'chart.js/auto';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import { updateCurrency } from '../../redux/balanceSlice'; // Redux slice'tan action import edilmeli.
+import { updateCurrency } from '../../redux/balanceSlice';
 
 const Currency = ({ data }) => {
     const chartRef = useRef(null);
     const dispatch = useDispatch();
+    const [cachedData, setCachedData] = useState(null);
 
-    useEffect(() => {
-        const fetchCurrencyData = async () => {
-            try {
-                const response = await axios.get(
-                    'https://api.monobank.ua/bank/currency',
-                );
-                const filteredData = response.data.filter(
-                    (item) =>
-                        (item.currencyCodeA === 840 && item.currencyCodeB === 980) || // USD
-                        (item.currencyCodeA === 978 && item.currencyCodeB === 980), // EUR
-                );
-                const formattedData = filteredData.map((item) => ({
-                    name: item.currencyCodeA === 840 ? 'USD' : 'EUR',
-                    purchase: item.rateBuy,
-                    sale: item.rateSell,
-                }));
-                dispatch(updateCurrency(formattedData));
-            } catch (error) {
+    const fetchCurrencyData = async () => {
+        try {
+            const response = await axios.get('https://api.monobank.ua/bank/currency');
+            const filteredData = response.data.filter(
+                (item) =>
+                    (item.currencyCodeA === 840 && item.currencyCodeB === 980) || // USD
+                    (item.currencyCodeA === 978 && item.currencyCodeB === 980) // EUR
+            );
+            const formattedData = filteredData.map((item) => ({
+                name: item.currencyCodeA === 840 ? 'USD' : 'EUR',
+                purchase: item.rateBuy,
+                sale: item.rateSell,
+            }));
+            dispatch(updateCurrency(formattedData)); // Updating redux state
+            setCachedData(formattedData);
+            localStorage.setItem('currencyData', JSON.stringify(formattedData));
+        } catch (error) {
+            if (error.response && error.response.status === 429) {
+                console.error('Too many requests. Please try again later.');
+            } else {
                 console.error('Error fetching currency data:', error);
             }
-        };
+        }
+    };
 
-        fetchCurrencyData();
+    useEffect(() => {
+        const cachedCurrencyData = localStorage.getItem('currencyData');
+        if (cachedCurrencyData) {
+            setCachedData(JSON.parse(cachedCurrencyData));
+        } else {
+            fetchCurrencyData();
+        }
     }, [dispatch]);
 
     useEffect(() => {
-        if (!data || data.length === 0) return;
+        if (!cachedData || cachedData.length < 2) return;
 
         const ctx = chartRef.current.getContext('2d');
 
+        const gradient = ctx.createLinearGradient(0, 0, 0, 250); // Adjust the height (250) to match the chart size
+        gradient.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
+        gradient.addColorStop(0.3, 'rgba(255, 255, 255, 0.321875)');
+        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+        // Create a new gradient for the overlay with darker effects towards the bottom
+        const overlayGradient = ctx.createLinearGradient(0, 0, 0, 400);
+        overlayGradient.addColorStop(0, 'rgba(57, 0, 150, 0.2)'); // Light at the top
+        overlayGradient.addColorStop(0.8, 'rgba(57, 0, 150, 0.4)'); // Darker but still transparent
+        overlayGradient.addColorStop(1, 'rgba(57, 0, 150, 0.7)'); // Strongest color at the bottom, making it more opaque
+
+        // Wave data
+        const waveData = [39, cachedData[0].purchase, 38, cachedData[1].purchase, 40]; // Wave points
+
         const chartData = {
-            labels: data.map((item) => item.name),
+            labels: ['Point 1', 'Point 2', 'Point 3', 'Point 4', 'Point 5'],
             datasets: [
                 {
                     label: 'Purchase',
-                    data: data.map((item) => item.purchase),
+                    data: waveData,
                     borderColor: '#FF6384',
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    backgroundColor: gradient,
                     borderWidth: 3,
-                    tension: 0.4,
-                    fill: true,
-                    pointBackgroundColor: '#FF6384',
-                    pointBorderColor: '#FF6384',
-                },
-                {
-                    label: 'Sale',
-                    data: data.map((item) => item.sale),
-                    borderColor: '#36A2EB',
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderWidth: 3,
-                    tension: 0.4,
-                    fill: true,
-                    pointBackgroundColor: '#36A2EB',
-                    pointBorderColor: '#36A2EB',
+                    tension: 0.4, // Curved line
+                    fill: true,  // Fill below the line
+                    pointBackgroundColor: waveData.map((_, index) =>
+                        index === 1 || index === 3 ? '#FF6384' : 'transparent'
+                    ), // Only the peaks are visible
+                    pointBorderColor: waveData.map((_, index) =>
+                        index === 1 || index === 3 ? '#FF6384' : 'white'
+                    ),
+                    pointRadius: waveData.map((_, index) =>
+                        index === 1 || index === 3 ? 5 : 0
+                    ), // Only the peaks have larger radius
                 },
             ],
         };
@@ -73,32 +93,35 @@ const Currency = ({ data }) => {
                 scales: {
                     x: {
                         ticks: {
-                            color: 'white',
+                            display: false,
                         },
                         title: {
-                            display: true,
-                            text: 'Currency',
-                            color: 'white',
+                            display: false,
+                        },
+                        grid: {
+                            display: false, // Disable grid lines on the x-axis
                         },
                     },
                     y: {
+                        min: 35,
+                        max: 45,
                         ticks: {
-                            color: 'white',
+                            display: false,
                         },
                         title: {
-                            display: true,
-                            text: 'Rate',
-                            color: 'white',
+                            display: false,
+                        },
+                        grid: {
+                            display: false, // Disable grid lines on the y-axis
                         },
                     },
                 },
                 plugins: {
                     legend: {
                         labels: {
-                            color: 'white',
+                            display: false,
                         },
-                        display: true,
-                        position: 'top',
+                        display: false,
                     },
                 },
                 responsive: true,
@@ -111,39 +134,38 @@ const Currency = ({ data }) => {
         return () => {
             myChart.destroy();
         };
-    }, [data]);
+    }, [cachedData]);
 
     return (
         <div
             className="rounded-lg p-6 shadow-md mobile:w-full"
             style={{
-                background:
-                    'radial-gradient(circle, #2E225F, #523B7E99)', // Gradyan arka plan
+                background: 'radial-gradient(circle, #2E225F, #523B7E99)', // Gradyan arka plan
                 boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.2)', // Hafif gölge
             }}
         >
-            <table className="w-full text-left text-white mb-6">
+            <table className="w-full text-left text-white mb-1">
                 <thead>
-                    <tr className="border-b border-[rgba(255,255,255,0.2)]">
-                        <th className="py-2">Currency</th>
-                        <th className="py-2">Purchase</th>
-                        <th className="py-2">Sale</th>
+                    <tr className="bg-[rgba(255,255,255,0.1)]">
+                        <th className="py-2 text-center">Currency</th>
+                        <th className="py-2 text-center">Purchase</th>
+                        <th className="py-2 text-center">Sale</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {data && data.map((item, index) => (
+                    {cachedData && cachedData.map((item, index) => (
                         <tr
                             key={index}
-                            className="border-b border-[rgba(255,255,255,0.1)] hover:bg-[rgba(109,84,235,0.4)]"
+                            className="hover:bg-[rgba(109,84,235,0.4)]"
                         >
-                            <td className="py-2 px-4">{item.name}</td>
-                            <td className="py-2 px-4">{item.purchase}</td>
-                            <td className="py-2 px-4">{item.sale}</td>
+                            <td className="py-2 px-4 text-center">{item.name}</td>
+                            <td className="py-2 px-4 text-center">{item.purchase}</td>
+                            <td className="py-2 px-4 text-center">{item.sale}</td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-            <div className="h-64">
+            <div className="h-auto">
                 <canvas ref={chartRef}></canvas>
             </div>
         </div>

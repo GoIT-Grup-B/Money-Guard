@@ -47,11 +47,8 @@ const ButtonAddTransactions = () => {
                     : `-${transactionData.amount.toString()}`
             };
 
-            console.log('Data being sent to API:', formattedData);
-            console.log('Original data from form:', transactionData);
 
             const response = await dispatch(addTransaction(formattedData)).unwrap();
-            console.log('API Response:', response);
             handleCloseModal();
         } catch (error) {
             console.error('Failed to add transaction:', error);

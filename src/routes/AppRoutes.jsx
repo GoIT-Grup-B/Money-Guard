@@ -59,13 +59,13 @@ const AppRoutes = () => {
                 >
                     <Route path="home" element={<DashBoardTable />} />
                     <Route path="statistics" element={<Statistics />} />
-                    <Route 
-                        path="currency" 
-                        element={isMobile ? <Currency /> : <Navigate to="/dashboard/home" />} 
+                    <Route
+                        path="currency"
+                        element={isMobile ? <Currency /> : <Navigate to="/dashboard/home" />}
                     />
-                    <Route 
-                        index 
-                        element={<Navigate to="/dashboard/home" replace />} 
+                    <Route
+                        index
+                        element={<Navigate to="/dashboard/home" replace />}
                     />
                 </Route>
                 <Route path="*" element={<Navigate to="/login" replace />} />
