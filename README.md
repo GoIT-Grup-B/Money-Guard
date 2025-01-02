@@ -1,6 +1,6 @@
 # Finovators -> Money-Guard 💰
 
-**Money-Guard** projesine hoş geldiniz. Bu proje, GoIT teknoloji okulu projesi için **Finovators** adlı ekibin çalışmasıdır.
+**Money-Guard** projesine hoş geldiniz. Bu proje, GoIT teknoloji okulu projesi için [**Finovators**](https://sailortr.github.io/finovators/) adlı ekibin çalışmasıdır.
 
 [![Static Badge](https://img.shields.io/badge/visit-Money%20Guard-%23623f8b?style=for-the-badge)](https://money-guard-finovators.vercel.app/)
 
