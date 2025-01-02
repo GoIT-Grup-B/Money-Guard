@@ -47,7 +47,6 @@ const EditTransactionForm = ({ transaction, onClose }) => {
         };
 
         // Log the transaction data to the console
-        console.log('Submitting transaction data:', transactionData);
 
         dispatch(
             updateTransaction({

@@ -57,8 +57,11 @@ const Sidebar = () => {
                         <p className="hidden tablet:block">Home</p>
                     </NavLink>
                     <NavLink
-                        to='/dashboard/statistics'
-                        onClick={() => setSelectedSection('stats')}
+                        to='statistics'
+                        onClick={() => {
+                            console.log('Statistics link clicked');
+                            setSelectedSection('stats');
+                        }}
                         className={`flex items-center gap-2 p-2 rounded-md ${selectedSection === 'stats' ? 'bg-[#432f70] text-white' : 'hover:text-purple-300'
                             }`}
                     >

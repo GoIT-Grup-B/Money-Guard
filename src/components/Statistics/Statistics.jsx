@@ -53,6 +53,7 @@ const years = [
 ];
 
 const Statistics = () => {
+    console.log("statistics component rendered")
     const [selectedMonth, setSelectedMonth] = useState('01');
     const [selectedYear, setSelectedYear] = useState(2025);
     const [expenses, setExpenses] = useState([]);
@@ -73,23 +74,18 @@ const Statistics = () => {
                 },
             );
 
-            console.log("response: ", response);
             const apiData = response.data.categoriesSummary;
-            console.log('API Data:', apiData); // API yanıtını kontrol edin
 
             // Adjust expensesData based on the incoming data
             const expensesData = chartCategories.map((category) => {
                 const matchedCategory = apiData.find((item) => item.name === category && item.type === 'EXPENSE');
-                console.log("matchedCategory : ", matchedCategory);
                 return matchedCategory ? Math.abs(matchedCategory.total) : 0;
             });
-            console.log('Expenses Data:', expensesData); // İşlenen harcamaları kontrol edin
 
             // Calculate depositsData
             const depositsData = apiData
                 .filter((tx) => tx.type === 'INCOME')
                 .reduce((total, tx) => total + Math.abs(tx.total), 0);
-            console.log('Deposits Data:', depositsData); // İşlenen gelirleri kontrol edin
 
             setExpenses(expensesData);
             setIncomes(depositsData);
