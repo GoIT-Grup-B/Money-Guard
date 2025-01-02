@@ -119,6 +119,7 @@ const Statistics = () => {
     const totalExpenses = expenses.reduce((sum, value) => sum + value, 0);
 
     return (
+        <>
         <div className="min-h-screen bg-gradient-to-b from-gray-800 to-gray-900 text-white flex flex-col items-center p-4">
             <h2 className="text-2xl font-bold mb-4">Statistics</h2>
             <div className="flex flex-wrap justify-center gap-6 w-full">
@@ -174,7 +175,8 @@ const Statistics = () => {
                     <strong>Income:</strong> ₺ {(Number(incomes) || 0).toFixed(2)}
                 </div>
             </div>
-        </div>
+            </div>
+        </>
     );
 };
 

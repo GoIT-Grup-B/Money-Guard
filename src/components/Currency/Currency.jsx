@@ -1,38 +1,50 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Chart } from 'chart.js/auto';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import { updateCurrency } from '../../redux/balanceSlice'; // Redux slice'tan action import edilmeli.
+import { updateCurrency } from '../../redux/balanceSlice';
 
 const Currency = ({ data }) => {
     const chartRef = useRef(null);
     const dispatch = useDispatch();
+    const [cachedData, setCachedData] = useState(null);
 
-    useEffect(() => {
-        const fetchCurrencyData = async () => {
-            try {
-                const response = await axios.get('https://api.monobank.ua/bank/currency');
-                const filteredData = response.data.filter(
-                    (item) =>
-                        (item.currencyCodeA === 840 && item.currencyCodeB === 980) || // USD
-                        (item.currencyCodeA === 978 && item.currencyCodeB === 980) // EUR
-                );
-                const formattedData = filteredData.map((item) => ({
-                    name: item.currencyCodeA === 840 ? 'USD' : 'EUR',
-                    purchase: item.rateBuy,
-                    sale: item.rateSell,
-                }));
-                dispatch(updateCurrency(formattedData)); // Updating redux state
-            } catch (error) {
+    const fetchCurrencyData = async () => {
+        try {
+            const response = await axios.get('https://api.monobank.ua/bank/currency');
+            const filteredData = response.data.filter(
+                (item) =>
+                    (item.currencyCodeA === 840 && item.currencyCodeB === 980) || // USD
+                    (item.currencyCodeA === 978 && item.currencyCodeB === 980) // EUR
+            );
+            const formattedData = filteredData.map((item) => ({
+                name: item.currencyCodeA === 840 ? 'USD' : 'EUR',
+                purchase: item.rateBuy,
+                sale: item.rateSell,
+            }));
+            dispatch(updateCurrency(formattedData)); // Updating redux state
+            setCachedData(formattedData);
+            localStorage.setItem('currencyData', JSON.stringify(formattedData));
+        } catch (error) {
+            if (error.response && error.response.status === 429) {
+                console.error('Too many requests. Please try again later.');
+            } else {
                 console.error('Error fetching currency data:', error);
             }
-        };
+        }
+    };
 
-        fetchCurrencyData();
+    useEffect(() => {
+        const cachedCurrencyData = localStorage.getItem('currencyData');
+        if (cachedCurrencyData) {
+            setCachedData(JSON.parse(cachedCurrencyData));
+        } else {
+            fetchCurrencyData();
+        }
     }, [dispatch]);
 
     useEffect(() => {
-        if (!data || data.length < 2) return;
+        if (!cachedData || cachedData.length < 2) return;
 
         const ctx = chartRef.current.getContext('2d');
 
@@ -48,7 +60,7 @@ const Currency = ({ data }) => {
         overlayGradient.addColorStop(1, 'rgba(57, 0, 150, 0.7)'); // Strongest color at the bottom, making it more opaque
 
         // Wave data
-        const waveData = [39, data[0].purchase, 38, data[1].purchase, 40]; // Wave points
+        const waveData = [39, cachedData[0].purchase, 38, cachedData[1].purchase, 40]; // Wave points
 
         const chartData = {
             labels: ['Point 1', 'Point 2', 'Point 3', 'Point 4', 'Point 5'],
@@ -122,7 +134,7 @@ const Currency = ({ data }) => {
         return () => {
             myChart.destroy();
         };
-    }, [data]);
+    }, [cachedData]);
 
     return (
         <div
@@ -141,7 +153,7 @@ const Currency = ({ data }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data && data.map((item, index) => (
+                    {cachedData && cachedData.map((item, index) => (
                         <tr
                             key={index}
                             className="hover:bg-[rgba(109,84,235,0.4)]"
