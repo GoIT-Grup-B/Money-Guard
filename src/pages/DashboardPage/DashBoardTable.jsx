@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTransaction, deleteTransaction, getCategories } from '../../redux/transaction/transactionOps';
 import penLogo from "../../assets/svg/pen.svg";
