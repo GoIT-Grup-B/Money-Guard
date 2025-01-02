@@ -18,14 +18,14 @@ const chartCategories = [
 
 const categoryColors = [
     '#FF6384',
-    '#3d7ee5',
-    '#fff53d',
+    '#36A2EB',
+    '#FFCE56',
     '#4BC0C0',
-    '#7f46f2',
-    '#ff870f',
-    '#ef2121',
+    '#9966FF',
+    '#FF9F40',
+    '#FFCD56',
     '#C9CBCF',
-    '#3dc8ff',
+    '#74D1F6',
 ];
 
 const months = [
@@ -53,6 +53,7 @@ const years = [
 ];
 
 const Statistics = () => {
+    console.log('statistics component rendered');
     const [selectedMonth, setSelectedMonth] = useState('01');
     const [selectedYear, setSelectedYear] = useState(2025);
     const [expenses, setExpenses] = useState([]);
@@ -116,7 +117,7 @@ const Statistics = () => {
     const totalExpenses = expenses.reduce((sum, value) => sum + value, 0);
 
     return (
-    <>
+        <>
             <div className="h-screen bg-gradient-to-b from-gray-800 to-gray-900 text-white flex flex-col items-center p-4 overflow-y-auto overscrool-auto">
                 <h2 className="text-2xl font-bold mb-4">Statistics</h2>
                 <div className="flex tablet:flex-row w-full mobile:flex-col justify-center gap-6 w-full">
@@ -143,45 +144,94 @@ const Statistics = () => {
                     <div className="flex tablet:w-1/2 flex-col">
                         <div className="flex tablet:flex-row mobile:flex-col w-full sm:w-1/2 lg:w-1/3 flex-col gap-4">
                             <Select
-                                className="text-black bg-white rounded-lg"
                                 options={months}
                                 defaultValue={{ value: '01', label: 'January' }}
-                                onChange={(option) => setSelectedMonth(option.value)} />
+                                onChange={(option) => setSelectedMonth(option.value)}
+                                styles={{
+                                    control: (provided) => ({
+                                        ...provided,
+                                        backgroundColor: '#212040',
+                                        cursor: 'pointer',
+                                        color: '#f2f2f2'
+                                    }),
+                                    singleValue: (provided) => ({
+                                        ...provided,
+                                        color: '#f2f2f2'
+                                    }),
+                                    option: (provided, state) => ({
+                                        ...provided,
+                                        backgroundColor: state.isSelected ? '#212040' : '#4b3670',
+                                        color: '#fbfbfb',
+                                        cursor: 'pointer',
+                                        '&:hover': {
+                                            color: '#ff868d',
+                                            backgroundColor: 'rgba(255,255,255,0.05)',
+
+                                        }
+                                    }),
+                                    menu: (provided) => ({
+                                        ...provided,
+                                        background: 'linear-gradient(180deg, #4b3670, #4a389b)'
+                                    })
+                                }}
+                            />
                             <Select
                                 options={years}
                                 defaultValue={{ value: 2025, label: '2025' }}
                                 onChange={(option) => setSelectedYear(option.value)}
+                                styles={{
+                                    control: (provided) => ({
+                                        ...provided,
+                                        backgroundColor: '#212040',
+                                        color: '#f2f2f2',
+                                        cursor: 'pointer'
+                                    }),
+                                    singleValue: (provided) => ({
+                                        ...provided,
+                                        color: '#f2f2f2'
+                                    }),
+                                    option: (provided, state) => ({
+                                        ...provided,
+                                        backgroundColor: state.isSelected ? '#212040' : '#4b3670',
+                                        color: '#fbfbfb',
+                                        cursor: 'pointer',
+                                        '&:hover': {
+                                            backgroundColor: '#ff868d'
+                                        }
+                                    }),
+                                    menu: (provided) => ({
+                                        ...provided,
+                                        background: 'linear-gradient(180deg, #4b3670, #4a389b)'
+                                    })
+                                }}
                             />
                         </div>
-                    </div>
-                    <div className="w-full mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {chartCategories.map((category, index) => (
-                            <div
-                                key={index}
-                                className="flex justify-between bg-gray-700 p-4 rounded-lg shadow"
-                            >
-                                <div className="flex items-center gap-2">
-                                    <div
-                                        className="w-4 h-4 rounded-full"
-                                        style={{ backgroundColor: categoryColors[index] }}
-                                    ></div>
-                                    <span>{category}</span>
+                        <div className="w-full mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {chartCategories.map((category, index) => (
+                                <div
+                                    key={index}
+                                    className="flex justify-between bg-gray-700 p-4 rounded-lg shadow"
+                                >
+                                    <div className="flex items-center gap-2">
+                                        <div
+                                            className="w-4 h-4 rounded-full"
+                                            style={{ backgroundColor: categoryColors[index] }}
+                                        ></div>
+                                        <span>{category}</span>
+                                    </div>
+                                    <div>₺ {expenses[index]?.toFixed(2)}</div>
                                 </div>
-                                <div>₺ {expenses[index]?.toFixed(2)}</div>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="w-full mt-8 flex justify-between items-center bg-gray-700 p-4 rounded-lg shadow">
-                        <div>
-                            <strong>Expenses:</strong> ₺ {totalExpenses.toFixed(2)}
+                            ))}
                         </div>
-                        <div>
-                            <strong>Income:</strong> ₺ {(Number(incomes) || 0).toFixed(2)}
+                        <div className="w-full h-auto mt-8 flex tablet:flex-row mobile:flex-col justify-between items-center bg-gray-700 p-4 rounded-lg shadow">
+                            <div>Expenses: ₺ {totalExpenses.toFixed(2)}</div>
+                            <div>Income: ₺ {(Number(incomes) || 0).toFixed(2)}</div>
                         </div>
                     </div>
                 </div>
-            </>
-            );
+            </div>
+        </>
+    );
 };
 
-            export default Statistics;
+export default Statistics;
