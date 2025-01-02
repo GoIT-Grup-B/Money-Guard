@@ -11,7 +11,7 @@ const LoginPage = lazy(() => import('../pages/LoginPage/LoginPage'));
 const DashboardPage = lazy(
     () => import('../pages/DashboardPage/DashboardPage'),
 );
-const Statistic = lazy(() => import('../components/Statistick/Statistick'));
+const Statistics = lazy(() => import('../components/Statistics/Statistics'));
 const DashBoardTable = lazy(
     () => import('../pages/DashboardPage/DashBoardTable'),
 );
@@ -58,7 +58,7 @@ const AppRoutes = () => {
                     }
                 >
                     <Route path="home" element={<DashBoardTable />} />
-                    <Route path="statistic" element={<Statistic />} />
+                    <Route path="statistics" element={<Statistics />} />
                     <Route 
                         path="currency" 
                         element={isMobile ? <Currency /> : <Navigate to="/dashboard/home" />} 

@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom';
 import Currency from '../../components/Currency/Currency';
 import useMedia from '../../hooks/useMedia';
 import DashBoardTable from '../../pages/DashboardPage/DashBoardTable';
-import Statistick from '../Statistick/Statistick'
+import Statistics from '../Statistics/Statistics'
 
 const Sidebar = () => {
     const transactions = useSelector((state) => state.transaction.transactions);
@@ -36,7 +36,7 @@ const Sidebar = () => {
             case 'currency':
                 return <Currency data={currency} />;
             case 'stats':
-                return <Statistick />;
+                return <Statistics />;
             case 'home':
             default:
                 return <DashBoardTable />;
@@ -57,7 +57,7 @@ const Sidebar = () => {
                         <p className="hidden tablet:block">Home</p>
                     </NavLink>
                     <NavLink
-                        to='/dashboard/statistic'
+                        to='/dashboard/statistics'
                         onClick={() => setSelectedSection('stats')}
                         className={`flex items-center gap-2 p-2 rounded-md ${selectedSection === 'stats' ? 'bg-[#432f70] text-white' : 'hover:text-purple-300'
                             }`}
