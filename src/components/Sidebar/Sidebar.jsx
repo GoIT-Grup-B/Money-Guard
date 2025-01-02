@@ -77,7 +77,7 @@ const Sidebar = () => {
                 </header>
 
                 {/* Balance Section */}
-                <section className="mb-8">
+                <section className="mb-2">
                     <div
                         className="flex flex-col items-center justify-center rounded-lg p-2 h-20 shadow-md mx-6 tablet:w-auto desktop:w-full desktop:m-0 desktop:rounded-none"
                         style={{
