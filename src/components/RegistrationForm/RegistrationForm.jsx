@@ -9,9 +9,12 @@ import userSvg from '../../assets/svg/user.svg';
 import FormFooter from '../FormFooter/FormFooter';
 import { yupRegister } from '../../utils/yupSchema';
 import { InfinitySpin } from 'react-loader-spinner';
+import { useState } from 'react';
+import PasswordStrengthBar from 'react-password-strength-bar';
 
 function RegistrationForm() {
   const dispatch = useDispatch();
+  const [password, setPassword] = useState('');
   const { loading } = useSelector((store) => store.user);
 
   const {
@@ -73,7 +76,11 @@ function RegistrationForm() {
               <img src={passswordSvg} alt="" width="24px" />
               <input
                 type="password"
-                {...register('password')}
+                {...register('password', {
+                  onChange: (e) => {
+                    setPassword(e.target.value);
+                  },
+                })}
                 placeholder="Password"
                 className="bg-transparent outline-none w-full"
               />
@@ -88,7 +95,9 @@ function RegistrationForm() {
 
               <input
                 type="password"
-                {...register('confirmPassword')}
+                {...register('confirmPassword', {
+                  disabled: password.length <= 0,
+                })}
                 placeholder="Confirm password"
                 className="bg-transparent outline-none w-full"
               />
@@ -98,6 +107,13 @@ function RegistrationForm() {
                 {errors.confirmPassword.message}
               </p>
             )}
+            {password && (
+              <PasswordStrengthBar
+                password={password}
+                barColors={['#ddd', '#FFC727', '#FFC727', '#FFC727', '#FFC727']}
+              />
+            )}
+
             <FormFooter type="register" />
           </form>
         )}

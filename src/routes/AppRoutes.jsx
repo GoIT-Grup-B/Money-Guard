@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Loader from '../components/Loader/Loader';
+import useMedia from '../hooks/useMedia'
 
 const RegistrationPage = lazy(
     () => import('../pages/RegistrationPage/RegistrationPage'),
@@ -10,7 +11,7 @@ const LoginPage = lazy(() => import('../pages/LoginPage/LoginPage'));
 const DashboardPage = lazy(
     () => import('../pages/DashboardPage/DashboardPage'),
 );
-const Statistic = lazy(() => import('../components/Statistick/Statistick'));
+const Statistics = lazy(() => import('../components/Statistics/Statistics'));
 const DashBoardTable = lazy(
     () => import('../pages/DashboardPage/DashBoardTable'),
 );
@@ -27,6 +28,8 @@ const PublicRoute = ({ children }) => {
 };
 
 const AppRoutes = () => {
+    const { isMobile } = useMedia();
+
     return (
         <Suspense fallback={<Loader />}>
             <Routes>
@@ -55,7 +58,15 @@ const AppRoutes = () => {
                     }
                 >
                     <Route path="home" element={<DashBoardTable />} />
-                    <Route path="statistic" element={<Statistic />} />
+                    <Route path="statistics" element={<Statistics />} />
+                    <Route 
+                        path="currency" 
+                        element={isMobile ? <Currency /> : <Navigate to="/dashboard/home" />} 
+                    />
+                    <Route 
+                        index 
+                        element={<Navigate to="/dashboard/home" replace />} 
+                    />
                 </Route>
                 <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>

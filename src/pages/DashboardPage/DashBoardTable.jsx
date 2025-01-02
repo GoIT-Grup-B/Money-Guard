@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import './DashBoardTable.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTransaction, deleteTransaction ,getCategories } from '../../redux/transaction/transactionOps';
+import { getTransaction, deleteTransaction, getCategories } from '../../redux/transaction/transactionOps';
 import penLogo from "../../assets/svg/pen.svg";
 import ModalEditTransaction from '../../components/ModalEditTransaction/ModalEditTransaction';
 //gizem
@@ -13,20 +13,20 @@ const DashBoardTable = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     const [categories, setCategories] = useState({});
-    
+
     useEffect(() => {
         if (token) {
             dispatch(getTransaction());
             fetchCategories();
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, token]);
 
-     const fetchCategories = async () => {
+    const fetchCategories = async () => {
         try {
             const result = await dispatch(getCategories()).unwrap();
             const categoryMap = result.reduce((acc, category) => {
-                acc[category.id] = category.name; 
+                acc[category.id] = category.name;
                 return acc;
             }, {});
             setCategories(categoryMap);
@@ -34,7 +34,7 @@ const DashBoardTable = () => {
             console.error('Failed to fetch categories:', error);
         }
     };
-    const handleDelete = async(transactionId) => {
+    const handleDelete = async (transactionId) => {
         if (token) {
             await dispatch(deleteTransaction({ transactionId }));
             dispatch(getTransaction());
@@ -196,14 +196,14 @@ const DashBoardTable = () => {
 </div>
 
 
-        {selectedTransaction && (
-            <ModalEditTransaction
-                isOpen={isEditModalOpen}
-                onRequestClose={() => setIsEditModalOpen(false)}
-                transaction={selectedTransaction}
-            />
-        )}
-    </div>
+            {selectedTransaction && (
+                <ModalEditTransaction
+                    isOpen={isEditModalOpen}
+                    onRequestClose={() => setIsEditModalOpen(false)}
+                    transaction={selectedTransaction}
+                />
+            )}
+        </div>
     );
 };
 

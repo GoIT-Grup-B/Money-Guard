@@ -5,7 +5,7 @@ export default {
     ],
     theme: {
         screens: {
-            'mobile': '370px',
+            'mobile': '320px',
             // => @media (min-width: 370px) { ... }
 
             'tablet': '768px',

@@ -4,24 +4,24 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import { Outlet } from 'react-router-dom';
 
 const DashboardPage = () => {
-  return (
-    <div className="tablet:flex tablet:flex-column desktop:flex-row mobile:flex-col mobile:gap-[5px] mobile:overflow-y-auto">
-      <aside>
-        <Sidebar />
-      </aside>
+    return (
+        <div className="flex tablet:flex-column desktop:flex-row mobile:flex-col mobile:gap-[5px] mobile:overflow-y-auto">
+            <aside className="flex-[0.7]">
+                <Sidebar />
+            </aside>
 
-      <div className="flex flex-col p-6">
-        <DashBoardTable />
-        <div className="flex-1">
-          <Outlet />
-        </div>
+            <div className="flex flex-[1.3] flex-col p-6">
+                <DashBoardTable />
+                <div className="">
+                    <Outlet />
+                </div>
 
-        <div>
-          <ButtonAddTransactions />
+                <div>
+                    <ButtonAddTransactions />
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default DashboardPage;

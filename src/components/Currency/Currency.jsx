@@ -118,7 +118,7 @@ const Currency = ({ data }) => {
             className="rounded-lg p-6 shadow-md mobile:w-full"
             style={{
                 background:
-                    'linear-gradient(180deg, rgba(109, 84, 235, 0.6) 0%, rgba(101, 35, 146, 0.6) 100%)', // Gradyan arka plan
+                    'radial-gradient(circle, #2E225F, #523B7E99)', // Gradyan arka plan
                 boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.2)', // Hafif gölge
             }}
         >
