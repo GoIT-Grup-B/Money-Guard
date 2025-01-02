@@ -34,38 +34,54 @@ const Currency = ({ data }) => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (!data || data.length === 0) return;
+        if (!data || data.length < 2) return;
 
         const ctx = chartRef.current.getContext('2d');
 
+        const gradient = ctx.createLinearGradient(0, 0, 0, 400); // Adjust the height (400) to match the chart size
+        gradient.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
+        gradient.addColorStop(0.3, 'rgba(255, 255, 255, 0.321875)');
+        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        
+        // Create a new gradient for the overlay with darker effects towards the bottom
+        const overlayGradient = ctx.createLinearGradient(0, 0, 0, 400);
+        overlayGradient.addColorStop(0, 'rgba(57, 0, 150, 0.2)'); // Light at the top
+        overlayGradient.addColorStop(0.8, 'rgba(57, 0, 150, 0.4)'); // Darker but still transparent
+        overlayGradient.addColorStop(1, 'rgba(57, 0, 150, 0.7)'); // Strongest color at the bottom, making it more opaque
+        
+
+        // Dalga verileri oluşturuluyor
+        const waveData = [];
+        waveData.push(39); // İlk değer sabit
+        waveData.push(data[0].purchase); // İlk tepe değeri
+        waveData.push(38); // Ara nokta
+        waveData.push(data[1].purchase); // İkinci tepe değeri
+        waveData.push(40); // Son değer sabit
         const chartData = {
-            labels: data.map((item) => item.name),
+            labels: ['Point 1', 'Point 2', 'Point 3', 'Point 4', 'Point 5'],
             datasets: [
                 {
                     label: 'Purchase',
-                    data: data.map((item) => item.purchase),
+                    data: waveData,
                     borderColor: '#FF6384',
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    backgroundColor: gradient,
                     borderWidth: 3,
-                    tension: 0.4,
-                    fill: true,
-                    pointBackgroundColor: '#FF6384',
-                    pointBorderColor: '#FF6384',
-                },
-                {
-                    label: 'Sale',
-                    data: data.map((item) => item.sale),
-                    borderColor: '#36A2EB',
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderWidth: 3,
-                    tension: 0.4,
-                    fill: true,
-                    pointBackgroundColor: '#36A2EB',
-                    pointBorderColor: '#36A2EB',
+                    tension: 0.4, // Çizgiyi eğimli yap
+                    fill: true,  // Çizgi altını doldur
+                    pointBackgroundColor: waveData.map((_, index) =>
+                        index === 1 || index === 3 ? '#FF6384' : 'transparent'
+                    ), // Sadece tepe noktalar görünür
+                    pointBorderColor: waveData.map((_, index) =>
+                        index === 1 || index === 3 ? '#FF6384' : 'white'
+
+                    ),
+                    pointRadius: waveData.map((_, index) =>
+                        index === 1 || index === 3 ? 5 : 0
+                    ), // Sadece tepe noktalar büyük görünür
                 },
             ],
-        };
 
+        };
         const config = {
             type: 'line',
             data: chartData,
@@ -73,38 +89,42 @@ const Currency = ({ data }) => {
                 scales: {
                     x: {
                         ticks: {
-                            color: 'white',
+                            display: false,
                         },
                         title: {
-                            display: true,
-                            text: 'Currency',
-                            color: 'white',
+                            display: false,
+                        },
+                        grid: {
+                            display: false, // Disable grid lines on the x-axis
                         },
                     },
                     y: {
+                        min: 35,
+                        max: 45,
                         ticks: {
-                            color: 'white',
+                            display: false,
                         },
                         title: {
-                            display: true,
-                            text: 'Rate',
-                            color: 'white',
+                            display: false,
+                        },
+                        grid: {
+                            display: false, // Disable grid lines on the x-axis
                         },
                     },
                 },
                 plugins: {
                     legend: {
                         labels: {
-                            color: 'white',
+                            display: false,
                         },
-                        display: true,
-                        position: 'top',
+                        display: false,
                     },
                 },
                 responsive: true,
                 maintainAspectRatio: false,
             },
         };
+
 
         const myChart = new Chart(ctx, config);
 
@@ -124,21 +144,21 @@ const Currency = ({ data }) => {
         >
             <table className="w-full text-left text-white mb-6">
                 <thead>
-                    <tr className="border-b border-[rgba(255,255,255,0.2)]">
-                        <th className="py-2">Currency</th>
-                        <th className="py-2">Purchase</th>
-                        <th className="py-2">Sale</th>
+                    <tr className="bg-[rgba(255,255,255,0.1)]">
+                        <th className="py-2 text-center">Currency</th>
+                        <th className="py-2 text-center">Purchase</th>
+                        <th className="py-2 text-center">Sale</th>
                     </tr>
                 </thead>
                 <tbody>
                     {data && data.map((item, index) => (
                         <tr
                             key={index}
-                            className="border-b border-[rgba(255,255,255,0.1)] hover:bg-[rgba(109,84,235,0.4)]"
+                            className="hover:bg-[rgba(109,84,235,0.4)]"
                         >
-                            <td className="py-2 px-4">{item.name}</td>
-                            <td className="py-2 px-4">{item.purchase}</td>
-                            <td className="py-2 px-4">{item.sale}</td>
+                            <td className="py-2 px-4  text-center">{item.name}</td>
+                            <td className="py-2 px-4  text-center">{item.purchase}</td>
+                            <td className="py-2 px-4  text-center">{item.sale}</td>
                         </tr>
                     ))}
                 </tbody>
