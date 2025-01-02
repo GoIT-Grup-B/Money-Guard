@@ -59,10 +59,10 @@ const DashBoardTable = () => {
     }
 
     return (
-    <div className="flex h-screen">
+    <div className="flex tablet:justify-center desktop:justify-start h-screen">
         {/* Tablet ve Desktop için tablo düzeni */}
-        <div className="hidden tablet:block mobile:hidden  relative bg-transparent tablet:w-4/5" >
-            <table className="sm:table w-full tablet:rounded-lg text-sm text-left bg-transparent text-gray-500 dark:text-gray-400 border-collapse rounded-lg border-gray-300" style={{ margin: "0 auto" }}>
+        <div className="hidden tablet:block mobile:hidden relative bg-transparent " >
+            <table className="sm:table w-full tablet:rounded-lg text-sm text-left bg-transparent text-gray-500 dark:text-gray-400 border-collapse rounded-lg border-gray-300">
                 <thead className="bg-[#523B7E99] rounded-[20px] text-xs text-gray-700 dark:text-gray-400">
                     <tr className="h-auto max-w-lg rounded-lg text-base text-[#FCFCFC] dark:text-gray-400">
                         <th scope="col" className="text-[#FBFBFB] px-6 py-3 rounded-s-lg w-1/6">Date</th>

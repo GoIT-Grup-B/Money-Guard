@@ -44,9 +44,9 @@ const Sidebar = () => {
     };
 
     return (
-        <div className="flex flex-col tablet:flex-row desktop:flex-col tablet:gap-4 bg-gradient-to-r from-[#2E1746] to-[#2E225F] text-white font-sans h-full">
+        <div className="tablet:justify-center desktop:justify-start flex flex-col tablet:flex-row desktop:flex-col tablet:gap-4 bg-gradient-to-r from-[#2E1746] to-[#2E225F] text-white font-sans h-full">
             <div className="flex flex-col tablet:w-1/2 mobile:w-full desktop:w-auto">
-                <header className="flex flex-row mobile:justify-center tablet:flex-col gap-4 p-6">
+                <header className="flex tablet:flex-1 flex-row mobile:justify-center tablet:flex-col gap-4 p-6">
                     <NavLink
                         to='/dashboard/home'
                         onClick={() => setSelectedSection('home')}
@@ -77,7 +77,7 @@ const Sidebar = () => {
                 </header>
 
                 {/* Balance Section */}
-                <section className="mb-2">
+                <section className="">
                     <div
                         className="flex flex-col items-center justify-center rounded-lg p-2 h-20 shadow-md mx-6 tablet:w-auto desktop:w-full desktop:m-0 desktop:rounded-none"
                         style={{
