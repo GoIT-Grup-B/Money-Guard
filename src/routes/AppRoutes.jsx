@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Loader from '../components/Loader/Loader';
+import Footer from '../components/Footer/Footer';
 
 const RegistrationPage = lazy(
   () => import('../pages/RegistrationPage/RegistrationPage'),
@@ -24,39 +25,40 @@ const PublicRoute = ({ children }) => {
 
 const AppRoutes = () => {
   return (
-    <Suspense fallback={<Loader />}>
-      <Routes>
-        <Route
-          path="/register"
-          element={
-            <PublicRoute>
-              <RegistrationPage />
-            </PublicRoute>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <PublicRoute>
-              <LoginPage />
-            </PublicRoute>
-          }
-        />
-        <Route
-          path="/dashboard"
-          element={
-            <PrivateRoute>
-              <>
+    <>
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          <Route
+            path="/register"
+            element={
+              <PublicRoute>
+                <RegistrationPage />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <LoginPage />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
                 <DashboardPage />
-              </>
-            </PrivateRoute>
-          }
-        >
-          <Route path="statistic" element={<Statistic />} />
-        </Route>
-        <Route path="*" element={<Navigate to="/login" replace />} />
-      </Routes>
-    </Suspense>
+              </PrivateRoute>
+            }
+          >
+            <Route path="statistic" element={<Statistic />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </Suspense>
+      <Footer />
+    </>
   );
 };
 
