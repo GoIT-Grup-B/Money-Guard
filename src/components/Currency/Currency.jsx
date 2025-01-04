@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { updateCurrency } from '../../redux/balanceSlice';
 
-const Currency = ({ data }) => {
+const Currency = () => {
     const chartRef = useRef(null);
     const dispatch = useDispatch();
     const [cachedData, setCachedData] = useState(null);
