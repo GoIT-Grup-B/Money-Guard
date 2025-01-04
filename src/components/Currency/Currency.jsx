@@ -41,6 +41,7 @@ const Currency = () => {
         } else {
             fetchCurrencyData();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);
 
     useEffect(() => {
