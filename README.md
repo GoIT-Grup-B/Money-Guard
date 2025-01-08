@@ -46,3 +46,7 @@ Money-Guard, kullanıcıların gelir ve giderlerini yönetmelerine yardımcı ol
 ## Vercel Link
 
 https://money-guard-3n5c.vercel.app/ 
+
+## Trello Link
+
+https://trello.com/b/rXfrEyTR/goit-grup-b-money-guard
