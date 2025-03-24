@@ -42,3 +42,11 @@ Money-Guard, kullanıcıların gelir ve giderlerini yönetmelerine yardımcı ol
 - **Tailwind CSS:** Bileşen bazlı yerel stil.
 - **Vite:** Hızlı derleme ve canlı yeniden yükleme.
 - **Vercel:** Sorunsuz dağıtım ve barındırma.
+
+## Vercel Link
+
+https://money-guard-finovators.vercel.app/
+
+## Trello Link
+
+https://trello.com/b/rXfrEyTR/goit-grup-b-money-guard
